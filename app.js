@@ -1,4 +1,5 @@
-// DATA MODELING
+document.addEventListener("DOMContentLoaded", () => {
+  // DATA MODELING
 document.getElementById("dataModelingContent").innerHTML = `
 <p>Data modeling is how we structure data for analytics.</p>
 <ul>
@@ -127,3 +128,5 @@ function showNorm(type) {
 
   el.innerHTML = data[type];
 }
+
+          });          
