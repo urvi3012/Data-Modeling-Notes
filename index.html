@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Engineering — Interactive Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-logo">DE<span class="accent">.</span>guide</div>
+  <div class="nav-links">
+    <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+    <a href="#medallion" class="nav-link" data-section="medallion">Medallion</a>
+    <a href="#oltp-olap" class="nav-link" data-section="oltp-olap">OLTP vs OLAP</a>
+    <a href="#fact-dim" class="nav-link" data-section="fact-dim">Fact & Dim</a>
+    <a href="#schemas" class="nav-link" data-section="schemas">Schemas</a>
+    <a href="#scd" class="nav-link" data-section="scd">SCD Types</a>
+    <a href="#normalization" class="nav-link" data-section="normalization">Normalization</a>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="section hero-section">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Interactive Study Guide</div>
+    <h1 class="hero-title">Data Engineering<br><span class="gradient-text">Fundamentals</span></h1>
+    <p class="hero-sub">Click through each concept. See real data transformations. Build intuition for how modern data pipelines work.</p>
+    <div class="hero-topics">
+      <a href="#medallion" class="topic-chip bronze-chip">🟤 Medallion Architecture</a>
+      <a href="#oltp-olap" class="topic-chip">⚡ OLTP vs OLAP</a>
+      <a href="#fact-dim" class="topic-chip gold-chip">📊 Fact & Dim Tables</a>
+      <a href="#scd" class="topic-chip silver-chip">🔄 SCD Types</a>
+      <a href="#normalization" class="topic-chip">🗂 Normalization</a>
+    </div>
+  </div>
+  <div class="hero-diagram">
+    <div class="mini-pipeline">
+      <div class="mini-node src">SOURCE</div>
+      <div class="mini-arrow">→</div>
+      <div class="mini-node brz">BRONZE</div>
+      <div class="mini-arrow">→</div>
+      <div class="mini-node slv">SILVER</div>
+      <div class="mini-arrow">→</div>
+      <div class="mini-node gld">GOLD</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MEDALLION SECTION                           -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="medallion" class="section">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2 class="section-title">Medallion Architecture</h2>
+    <p class="section-sub">Click each layer to see what happens to your data as it flows from source to analytics.</p>
+  </div>
+
+  <!-- Pipeline Visual -->
+  <div class="pipeline-wrapper">
+    <div class="pipeline-flow">
+
+      <!-- SOURCE -->
+      <div class="pipeline-node source-node" id="node-source" onclick="activateLayer('source')">
+        <div class="node-icon">🏭</div>
+        <div class="node-label">Source</div>
+        <div class="node-sublabel">OLTP System</div>
+        <div class="node-pulse"></div>
+      </div>
+
+      <div class="pipe-connector">
+        <div class="pipe-line"></div>
+        <div class="pipe-arrow">▶</div>
+        <div class="pipe-label">CDC / Incremental Load</div>
+      </div>
+
+      <!-- BRONZE -->
+      <div class="pipeline-node bronze-node" id="node-bronze" onclick="activateLayer('bronze')">
+        <div class="node-icon">🟤</div>
+        <div class="node-label">Bronze</div>
+        <div class="node-sublabel">Raw / Staging</div>
+        <div class="node-pulse"></div>
+      </div>
+
+      <div class="pipe-connector">
+        <div class="pipe-line"></div>
+        <div class="pipe-arrow">▶</div>
+        <div class="pipe-label">Cleanse &amp; Merge</div>
+      </div>
+
+      <!-- SILVER -->
+      <div class="pipeline-node silver-node" id="node-silver" onclick="activateLayer('silver')">
+        <div class="node-icon">⚪</div>
+        <div class="node-label">Silver</div>
+        <div class="node-sublabel">Enriched / Conformed</div>
+        <div class="node-pulse"></div>
+      </div>
+
+      <div class="pipe-connector">
+        <div class="pipe-line"></div>
+        <div class="pipe-arrow">▶</div>
+        <div class="pipe-label">Dimensional Split</div>
+      </div>
+
+      <!-- GOLD -->
+      <div class="pipeline-node gold-node" id="node-gold" onclick="activateLayer('gold')">
+        <div class="node-icon">🟡</div>
+        <div class="node-label">Gold</div>
+        <div class="node-sublabel">Curated / Analytics</div>
+        <div class="node-pulse"></div>
+      </div>
+
+      <div class="pipe-connector">
+        <div class="pipe-line"></div>
+        <div class="pipe-arrow">▶</div>
+        <div class="pipe-label">Business Reports</div>
+      </div>
+
+      <!-- REPORT -->
+      <div class="pipeline-node report-node" id="node-report" onclick="activateLayer('report')">
+        <div class="node-icon">📊</div>
+        <div class="node-label">Analytics</div>
+        <div class="node-sublabel">Dashboard / ML</div>
+        <div class="node-pulse"></div>
+      </div>
+
+    </div>
+
+    <!-- Click hint -->
+    <div class="click-hint" id="medallionHint">👆 Click any layer to explore it</div>
+  </div>
+
+  <!-- Detail Panel -->
+  <div class="detail-panel" id="medallionPanel">
+    <div class="panel-inner" id="medallionPanelInner"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- OLTP vs OLAP                                -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="oltp-olap" class="section alt-section">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2 class="section-title">OLTP vs OLAP</h2>
+    <p class="section-sub">Two very different worlds. Click each system to see how it handles the same data differently.</p>
+  </div>
+
+  <div class="versus-wrapper">
+    <div class="versus-card oltp-card" onclick="toggleVersus('oltp')">
+      <div class="vs-header">
+        <span class="vs-tag">OLTP</span>
+        <span class="vs-name">Online Transactional Processing</span>
+      </div>
+      <div class="vs-icon">⚡</div>
+      <div class="vs-tagline">Built for speed. Every millisecond counts.</div>
+      <div class="vs-expand-hint">Click to explore →</div>
+    </div>
+
+    <div class="versus-divider">
+      <div class="vs-vs">VS</div>
+    </div>
+
+    <div class="versus-card olap-card" onclick="toggleVersus('olap')">
+      <div class="vs-header">
+        <span class="vs-tag">OLAP</span>
+        <span class="vs-name">Online Analytical Processing</span>
+      </div>
+      <div class="vs-icon">🔬</div>
+      <div class="vs-tagline">Built for insight. Petabytes, no problem.</div>
+      <div class="vs-expand-hint">Click to explore →</div>
+    </div>
+  </div>
+
+  <div class="versus-detail" id="versusDetail"></div>
+
+  <!-- Comparison Table -->
+  <div class="comparison-table-wrapper">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Criteria</th>
+          <th class="oltp-col">OLTP</th>
+          <th class="olap-col">OLAP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Purpose</td><td>Process transactions in real-time</td><td>Analyze historical data</td></tr>
+        <tr><td>Operation</td><td>Write-heavy</td><td>Read-heavy</td></tr>
+        <tr><td>Response Time</td><td>&lt; milliseconds</td><td>Seconds to minutes</td></tr>
+        <tr><td>Storage</td><td>Gigabytes (GB)</td><td>Terabytes–Petabytes (TB–PB)</td></tr>
+        <tr><td>Data Model</td><td>Normalized (3NF)</td><td>Star / Snowflake schema</td></tr>
+        <tr><td>Users</td><td>App users, DBAs</td><td>Analysts, Data Scientists</td></tr>
+        <tr><td>Update Style</td><td>Real-time streams</td><td>Batch (daily/weekly)</td></tr>
+        <tr><td>Example</td><td>Point-of-sale system</td><td>Sales trend dashboard</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FACT & DIMENSION TABLES                     -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="fact-dim" class="section">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2 class="section-title">Fact &amp; Dimension Tables</h2>
+    <p class="section-sub">The core building blocks of every data warehouse. Click each table to understand its role.</p>
+  </div>
+
+  <div class="fd-wrapper">
+    <!-- Star Diagram -->
+    <div class="star-diagram">
+      <div class="star-center fact-center" onclick="showFDDetail('fact')">
+        <div class="star-icon">📋</div>
+        <div>fact_sales</div>
+        <div class="star-sub">NUMBERS</div>
+      </div>
+      <div class="star-arm arm-top">
+        <div class="dim-box" onclick="showFDDetail('dim_date')">
+          <div class="dim-icon">📅</div>
+          <div>dim_date</div>
+        </div>
+      </div>
+      <div class="star-arm arm-right">
+        <div class="dim-box" onclick="showFDDetail('dim_product')">
+          <div class="dim-icon">📦</div>
+          <div>dim_product</div>
+        </div>
+      </div>
+      <div class="star-arm arm-bottom">
+        <div class="dim-box" onclick="showFDDetail('dim_payment')">
+          <div class="dim-icon">💳</div>
+          <div>dim_payment</div>
+        </div>
+      </div>
+      <div class="star-arm arm-left">
+        <div class="dim-box" onclick="showFDDetail('dim_customer')">
+          <div class="dim-icon">👤</div>
+          <div>dim_customer</div>
+        </div>
+      </div>
+      <!-- Connectors -->
+      <svg class="star-lines" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <line x1="200" y1="200" x2="200" y2="80" stroke="#ffffff20" stroke-width="2" stroke-dasharray="6,4"/>
+        <line x1="200" y1="200" x2="320" y2="200" stroke="#ffffff20" stroke-width="2" stroke-dasharray="6,4"/>
+        <line x1="200" y1="200" x2="200" y2="320" stroke="#ffffff20" stroke-width="2" stroke-dasharray="6,4"/>
+        <line x1="200" y1="200" x2="80" y2="200" stroke="#ffffff20" stroke-width="2" stroke-dasharray="6,4"/>
+      </svg>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="fd-detail" id="fdDetail">
+      <div class="fd-hint">👆 Click the fact table or any dimension to see its structure and role</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCHEMAS                                     -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="schemas" class="section alt-section">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2 class="section-title">Star vs Snowflake Schema</h2>
+    <p class="section-sub">Same data, different structure. Click each schema to compare them.</p>
+  </div>
+
+  <div class="schema-tabs">
+    <button class="schema-tab active" onclick="showSchema('star')">⭐ Star Schema</button>
+    <button class="schema-tab" onclick="showSchema('snowflake')">❄️ Snowflake Schema</button>
+  </div>
+
+  <div class="schema-display" id="schemaDisplay">
+    <!-- injected by JS -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCD TYPES                                   -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="scd" class="section">
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <h2 class="section-title">Slowly Changing Dimensions</h2>
+    <p class="section-sub">A product just changed category. What happens to your dimension table? Choose a strategy.</p>
+  </div>
+
+  <!-- Scenario -->
+  <div class="scd-scenario">
+    <div class="scenario-label">📌 The Scenario</div>
+    <div class="scenario-content">
+      Customer <strong>John Doe (ID: 1001)</strong> moves from <strong>New York</strong> → <strong>San Francisco</strong> and changes their email from <strong>john@old.com</strong> to <strong>john@new.com</strong>. How does each SCD strategy handle this?
+    </div>
+  </div>
+
+  <!-- SCD Type Cards -->
+  <div class="scd-cards">
+    <div class="scd-card scd0" onclick="showSCD(0)">
+      <div class="scd-num">Type 0</div>
+      <div class="scd-name">Retain Original</div>
+      <div class="scd-desc">Ignore all changes</div>
+      <div class="scd-badge">Rarely Used</div>
+    </div>
+    <div class="scd-card scd1" onclick="showSCD(1)">
+      <div class="scd-num">Type 1</div>
+      <div class="scd-name">Overwrite</div>
+      <div class="scd-desc">Latest value wins</div>
+      <div class="scd-badge popular">★ Most Common</div>
+    </div>
+    <div class="scd-card scd2" onclick="showSCD(2)">
+      <div class="scd-num">Type 2</div>
+      <div class="scd-name">New Row</div>
+      <div class="scd-desc">Full history preserved</div>
+      <div class="scd-badge popular">★ Most Common</div>
+    </div>
+    <div class="scd-card scd3" onclick="showSCD(3)">
+      <div class="scd-num">Type 3</div>
+      <div class="scd-name">Previous Column</div>
+      <div class="scd-desc">One step of history</div>
+      <div class="scd-badge">Specialized</div>
+    </div>
+  </div>
+
+  <!-- SCD Detail -->
+  <div class="scd-detail" id="scdDetail">
+    <div class="scd-hint">👆 Click a strategy card to see how it handles the change</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- NORMALIZATION                               -->
+<!-- ═══════════════════════════════════════════ -->
+<section id="normalization" class="section alt-section">
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <h2 class="section-title">Normalization</h2>
+    <p class="section-sub">Start with one messy table. Click each form to see the data get cleaner and more organized.</p>
+  </div>
+
+  <div class="norm-steps">
+    <button class="norm-btn active" onclick="showNorm('raw')">🗃 Raw (Unnormalized)</button>
+    <div class="norm-arrow">→</div>
+    <button class="norm-btn" onclick="showNorm('1nf')">1NF</button>
+    <div class="norm-arrow">→</div>
+    <button class="norm-btn" onclick="showNorm('2nf')">2NF</button>
+    <div class="norm-arrow">→</div>
+    <button class="norm-btn" onclick="showNorm('3nf')">3NF</button>
+  </div>
+
+  <div class="norm-display" id="normDisplay">
+    <!-- injected by JS -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FOOTER                                      -->
+<!-- ═══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-logo">DE<span class="accent">.</span>guide</div>
+    <p class="footer-text">Built from MonteCarlo, AWS, Databricks &amp; Medium sources. For study use.</p>
+  </div>
+</footer>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
