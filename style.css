@@ -1,65 +1,61 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0b0f14;
-  color: #e6edf3;
+  font-family: Arial;
+  margin: 40px;
+  background: #f7f7f7;
 }
 
-.nav {
-  padding: 20px 40px;
-  background: rgba(255,255,255,0.02);
+h1 {
+  text-align: center;
 }
 
-.logo {
-  font-weight: bold;
-}
-
-.section {
-  padding: 60px 40px;
-  max-width: 900px;
-  margin: auto;
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-}
-
-.pipeline {
-  display: flex;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.node {
-  padding: 15px 20px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.node:hover {
-  transform: translateY(-4px);
-}
-
-.bronze { background: #7c4a03; }
-.silver { background: #6b7280; }
-.gold { background: #fbbf24; color: black; }
-.report { background: #22c55e; }
-
-.row button {
-  margin: 5px;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.05);
-  color: white;
-  cursor: pointer;
-}
-
-pre {
-  background: rgba(255,255,255,0.03);
-  padding: 15px;
+section {
+  margin: 40px 0;
+  padding: 20px;
+  background: white;
   border-radius: 10px;
-  overflow-x: auto;
+}
+
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box {
+  padding: 20px;
+  background: #e3f2fd;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.box:hover {
+  background: #bbdefb;
+}
+
+.arrow {
+  font-size: 24px;
+}
+
+.info-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef;
+  border-radius: 8px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  padding: 10px;
 }
