@@ -7,8 +7,10 @@
 </head>
 <body>
 
+<div class="container">
+
 <h1>Data Engineering Fundamentals</h1>
-<p>Click through and understand how data actually flows.</p>
+<p class="subtitle">Click through and understand how data actually flows.</p>
 
 <!-- ================= DATA MODELING ================= -->
 <section>
@@ -37,7 +39,7 @@
   </div>
 
   <div id="layer-info" class="info-box">
-    Click on a layer to see how data flows.
+    👉 Click Bronze → Silver → Gold to follow real data journey
   </div>
 </section>
 
@@ -45,8 +47,10 @@
 <section>
   <h2>Slowly Changing Dimensions</h2>
 
-  <button onclick="showSCD(1)">Type 1</button>
-  <button onclick="showSCD(2)">Type 2</button>
+  <div class="btn-group">
+    <button onclick="showSCD(1)">Type 1</button>
+    <button onclick="showSCD(2)">Type 2</button>
+  </div>
 
   <div id="scd-info" class="info-box">
     Select a type to understand behavior.
@@ -57,15 +61,18 @@
 <section>
   <h2>Star vs Snowflake</h2>
 
-  <button onclick="toggleSchema('star')">Star</button>
-  <button onclick="toggleSchema('snowflake')">Snowflake</button>
+  <div class="btn-group">
+    <button onclick="toggleSchema('star')">Star</button>
+    <button onclick="toggleSchema('snowflake')">Snowflake</button>
+  </div>
 
   <div id="schema-info" class="info-box">
     Choose a schema to compare.
   </div>
 </section>
 
-<script src="script.js"></script>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
