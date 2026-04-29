@@ -1,80 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Engineering Guide</title>
-<link rel="stylesheet" href="style.css">
-<script src="app.js"></script>
+  <meta charset="UTF-8" />
+  <title>Data Modeling Notes</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<nav class="nav">
-  <div class="logo">DE Guide</div>
-</nav>
+<h1>📊 Data Modeling for Data Engineers</h1>
 
-<section class="section hero">
-  <h1>Data Engineering Fundamentals</h1>
-  <p>Click through and understand how data actually flows.</p>
-</section>
-
-<section class="section">
-  <h2>What is Data Modeling?</h2>
-  <div id="dataModelingContent"></div>
-</section>
-
-<section class="section">
+<!-- ================= MEDALLION ================= -->
+<section>
   <h2>Medallion Architecture</h2>
-  <div class="pipeline">
-    <div class="node" onclick="activateLayer('source')">Source</div>
-    <div class="node bronze" onclick="activateLayer('bronze')">Bronze</div>
-    <div class="node silver" onclick="activateLayer('silver')">Silver</div>
-    <div class="node gold" onclick="activateLayer('gold')">Gold</div>
-    <div class="node report" onclick="activateLayer('report')">Report</div>
+
+  <div class="flow">
+    <div class="box" onclick="showLayer('bronze')">🟢 Bronze</div>
+    <div class="arrow">→</div>
+    <div class="box" onclick="showLayer('silver')">⚪ Silver</div>
+    <div class="arrow">→</div>
+    <div class="box" onclick="showLayer('gold')">🟡 Gold</div>
   </div>
-  <div id="medallionPanel"></div>
+
+  <div id="layer-info" class="info-box"></div>
 </section>
 
-<section class="section">
-  <h2>OLTP vs OLAP</h2>
-  <div class="row">
-    <button onclick="toggleVersus('oltp')">OLTP</button>
-    <button onclick="toggleVersus('olap')">OLAP</button>
-  </div>
-  <div id="versusDetail"></div>
+<!-- ================= SCD ================= -->
+<section>
+  <h2>Slowly Changing Dimensions</h2>
+
+  <button onclick="showSCD(1)">SCD Type 1</button>
+  <button onclick="showSCD(2)">SCD Type 2</button>
+
+  <div id="scd-info" class="info-box"></div>
 </section>
 
-<section class="section">
-  <h2>Fact & Dimension</h2>
-  <div class="row">
-    <button onclick="showFDDetail('fact')">Fact</button>
-    <button onclick="showFDDetail('dim_customer')">Customer</button>
-    <button onclick="showFDDetail('dim_product')">Product</button>
-  </div>
-  <div id="fdDetail"></div>
+<!-- ================= STAR VS SNOWFLAKE ================= -->
+<section>
+  <h2>Star vs Snowflake Schema</h2>
+
+  <button onclick="toggleSchema('star')">Star Schema</button>
+  <button onclick="toggleSchema('snowflake')">Snowflake Schema</button>
+
+  <div id="schema-info" class="info-box"></div>
 </section>
 
-<section class="section">
-  <h2>SCD Types</h2>
-  <div class="row">
-    <button onclick="showSCD(1)">Type 1</button>
-    <button onclick="showSCD(2)">Type 2</button>
-    <button onclick="showSCD(3)">Type 3</button>
-  </div>
-  <div id="scdDetail"></div>
+<!-- ================= FACT VS DIM ================= -->
+<section>
+  <h2>Fact vs Dimension Tables</h2>
+
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td>Fact</td>
+      <td>Stores numerical metrics</td>
+      <td>Revenue, Quantity</td>
+    </tr>
+    <tr>
+      <td>Dimension</td>
+      <td>Provides context</td>
+      <td>Customer, Product</td>
+    </tr>
+  </table>
 </section>
 
-<section class="section">
-  <h2>Normalization</h2>
-  <div class="row">
-    <button onclick="showNorm('raw')">Raw</button>
-    <button onclick="showNorm('1nf')">1NF</button>
-    <button onclick="showNorm('2nf')">2NF</button>
-    <button onclick="showNorm('3nf')">3NF</button>
-  </div>
-  <div id="normDisplay"></div>
-</section>
-
-<script src="app.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
