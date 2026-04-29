@@ -2,71 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Data Modeling Notes</title>
+  <title>Data Engineering Fundamentals</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<h1>📊 Data Modeling for Data Engineers</h1>
+<h1>Data Engineering Fundamentals</h1>
+<p>Click through and understand how data actually flows.</p>
+
+<!-- ================= DATA MODELING ================= -->
+<section>
+  <h2>What is Data Modeling?</h2>
+  <p>
+    Data modeling is how we structure data for analytics and reporting.
+  </p>
+
+  <ul>
+    <li><b>Conceptual</b> → Business entities (Customer, Orders)</li>
+    <li><b>Logical</b> → Relationships & keys</li>
+    <li><b>Physical</b> → Tables, indexes, partitions</li>
+  </ul>
+</section>
 
 <!-- ================= MEDALLION ================= -->
 <section>
   <h2>Medallion Architecture</h2>
 
   <div class="flow">
-    <div class="box" onclick="showLayer('bronze')">🟢 Bronze</div>
+    <div class="box" onclick="showLayer('bronze')">Bronze</div>
     <div class="arrow">→</div>
-    <div class="box" onclick="showLayer('silver')">⚪ Silver</div>
+    <div class="box" onclick="showLayer('silver')">Silver</div>
     <div class="arrow">→</div>
-    <div class="box" onclick="showLayer('gold')">🟡 Gold</div>
+    <div class="box" onclick="showLayer('gold')">Gold</div>
   </div>
 
-  <div id="layer-info" class="info-box"></div>
+  <div id="layer-info" class="info-box">
+    Click on a layer to see how data flows.
+  </div>
 </section>
 
 <!-- ================= SCD ================= -->
 <section>
   <h2>Slowly Changing Dimensions</h2>
 
-  <button onclick="showSCD(1)">SCD Type 1</button>
-  <button onclick="showSCD(2)">SCD Type 2</button>
+  <button onclick="showSCD(1)">Type 1</button>
+  <button onclick="showSCD(2)">Type 2</button>
 
-  <div id="scd-info" class="info-box"></div>
+  <div id="scd-info" class="info-box">
+    Select a type to understand behavior.
+  </div>
 </section>
 
-<!-- ================= STAR VS SNOWFLAKE ================= -->
+<!-- ================= SCHEMA ================= -->
 <section>
-  <h2>Star vs Snowflake Schema</h2>
+  <h2>Star vs Snowflake</h2>
 
-  <button onclick="toggleSchema('star')">Star Schema</button>
-  <button onclick="toggleSchema('snowflake')">Snowflake Schema</button>
+  <button onclick="toggleSchema('star')">Star</button>
+  <button onclick="toggleSchema('snowflake')">Snowflake</button>
 
-  <div id="schema-info" class="info-box"></div>
-</section>
-
-<!-- ================= FACT VS DIM ================= -->
-<section>
-  <h2>Fact vs Dimension Tables</h2>
-
-  <table>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Example</th>
-    </tr>
-    <tr>
-      <td>Fact</td>
-      <td>Stores numerical metrics</td>
-      <td>Revenue, Quantity</td>
-    </tr>
-    <tr>
-      <td>Dimension</td>
-      <td>Provides context</td>
-      <td>Customer, Product</td>
-    </tr>
-  </table>
+  <div id="schema-info" class="info-box">
+    Choose a schema to compare.
+  </div>
 </section>
 
 <script src="script.js"></script>
+
 </body>
 </html>
