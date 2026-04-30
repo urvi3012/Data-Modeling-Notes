@@ -1,78 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Data Engineering Fundamentals</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Modeling for Data Engineers | Study Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --bronze: #cd7f32;
+            --silver: #bdc3c7;
+            --gold: #f1c40f;
+            --text: #333;
+            --bg: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            width: 250px;
+            background: var(--primary);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        nav h2 { font-size: 1.2rem; border-bottom: 1px solid #555; padding-bottom: 10px; }
+        nav ul { list-style: none; padding: 0; }
+        nav ul li { margin: 15px 0; }
+        nav ul li a { color: #ecf0f1; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
+        nav ul li a:hover { color: var(--accent); }
+
+        /* Main Content */
+        main {
+            margin-left: 250px;
+            padding: 40px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 { color: var(--primary); }
+        .highlight { color: var(--accent); font-weight: bold; }
+
+        /* Medallion Flow Chart */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            width: 150px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .flow-box:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .bronze { background: var(--bronze); color: white; }
+        .silver { background: var(--silver); color: #333; }
+        .gold { background: var(--gold); color: #333; }
+
+        .arrow { font-size: 24px; color: #999; }
+
+        .detail-card {
+            background: #eef2f3;
+            padding: 20px;
+            border-left: 5px solid var(--accent);
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th { background-color: var(--secondary); color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* SCD Interaction */
+        .scd-btn {
+            padding: 8px 15px;
+            margin: 5px;
+            border: none;
+            background: var(--secondary);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .scd-btn.active { background: var(--accent); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <nav>
+        <h2>Data Engineering</h2>
+        <ul>
+            <li><a href="#fundamentals">1. Fundamentals</a></li>
+            <li><a href="#oltp-olap">2. OLTP vs OLAP</a></li>
+            <li><a href="#medallion">3. Medallion Architecture</a></li>
+            <li><a href="#dimensional">4. Dimensional Modeling</a></li>
+            <li><a href="#schemas">5. Star vs Snowflake</a></li>
+            <li><a href="#scd">6. SCD Types</a></li>
+        </ul>
+    </nav>
 
-<h1>Data Engineering Fundamentals</h1>
-<p class="subtitle">Click through and understand how data actually flows.</p>
+    <main>
+        <header>
+            <h1>Data Modeling for Data Engineers</h1>
+            <p>A comprehensive guide to building scalable analytical systems.</p>
+        </header>
 
-<!-- ================= DATA MODELING ================= -->
-<section>
-  <h2>What is Data Modeling?</h2>
-  <p>
-    Data modeling is how we structure data for analytics and reporting.
-  </p>
+        <section id="fundamentals">
+            <h2>1. The Fundamentals</h2>
+            <p>Data modeling is the architectural blueprint of how data flows and resides. For Data Engineers, the focus is <strong>query performance</strong> and <strong>scalability</strong>.</p>
+            <ul>
+                <li><strong>Conceptual:</strong> Business entities (Customer, Product). No tech details.</li>
+                <li><strong>Logical:</strong> Defining attributes and relationships (PK/FK).</li>
+                <li><strong>Physical:</strong> Actual DB implementation (Data types, Indexes, Partitioning).</li>
+            </ul>
+        </section>
 
-  <ul>
-    <li><b>Conceptual</b> → Business entities (Customer, Orders)</li>
-    <li><b>Logical</b> → Relationships & keys</li>
-    <li><b>Physical</b> → Tables, indexes, partitions</li>
-  </ul>
-</section>
+        <section id="oltp-olap">
+            <h2>2. OLTP vs OLAP</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>OLTP (Transactional)</th>
+                        <th>OLAP (Analytical)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Focus</strong></td>
+                        <td>Fast Writes (CRUD)</td>
+                        <td>Fast Reads (Aggregation)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Normalization</strong></td>
+                        <td>Highly Normalized (3NF)</td>
+                        <td>Denormalized (Star/Snowflake)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redundancy</strong></td>
+                        <td>Eliminated</td>
+                        <td>Accepted for performance</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-<!-- ================= MEDALLION ================= -->
-<section>
-  <h2>Medallion Architecture</h2>
+        <section id="medallion">
+            <h2>3. Medallion Architecture</h2>
+            <p>Click each layer to see the transformation journey.</p>
+            
+            <div class="flow-container">
+                <div class="flow-box bronze" onclick="showMedallion('bronze')">Bronze (Raw)</div>
+                <div class="arrow">➔</div>
+                <div class="flow-box silver" onclick="showMedallion('silver')">Silver (Enriched)</div>
+                <div class="arrow">➔</div>
+                <div class="flow-box gold" onclick="showMedallion('gold')">Gold (Curated)</div>
+            </div>
 
-  <div class="flow">
-    <div class="box" onclick="showLayer('bronze')">Bronze</div>
-    <div class="arrow">→</div>
-    <div class="box" onclick="showLayer('silver')">Silver</div>
-    <div class="arrow">→</div>
-    <div class="box" onclick="showLayer('gold')">Gold</div>
-  </div>
+            <div id="medallion-detail" class="detail-card">
+                <h3 id="medallion-title">Click a box above!</h3>
+                <p id="medallion-desc"></p>
+                <div id="medallion-example"></div>
+            </div>
+        </section>
 
-  <div id="layer-info" class="info-box">
-    👉 Click Bronze → Silver → Gold to follow real data journey
-  </div>
-</section>
+        <section id="dimensional">
+            <h2>4. Dimensional Modeling</h2>
+            <h3>Fact Tables vs Dimension Tables</h3>
+            <p>In the Gold layer, we split data into <strong>Facts</strong> (Quantitative) and <strong>Dimensions</strong> (Qualitative).</p>
+            
+            <div style="display: flex; gap: 20px;">
+                <div style="flex: 1;">
+                    <h4 class="highlight">Fact Sales</h4>
+                    <table>
+                        <tr><th>sale_id</th><th>prod_key</th><th>amount</th></tr>
+                        <tr><td>101</td><td>1</td><td>$50.00</td></tr>
+                    </table>
+                </div>
+                <div style="flex: 1;">
+                    <h4 class="highlight">Dim Product</h4>
+                    <table>
+                        <tr><th>prod_key</th><th>name</th><th>category</th></tr>
+                        <tr><td>1</td><td>Laptop</td><td>Electronics</td></tr>
+                    </table>
+                </div>
+            </div>
+            <p><strong>Surrogate Keys:</strong> Always use an internal integer (1, 2, 3) as a primary key instead of a business ID (like Email) to protect your model from source system changes.</p>
+        </section>
 
-<!-- ================= SCD ================= -->
-<section>
-  <h2>Slowly Changing Dimensions</h2>
+        <section id="schemas">
+            <h2>5. Star vs Snowflake</h2>
+            <div style="display: flex; gap: 20px;">
+                <div style="flex: 1; border: 1px solid #ddd; padding: 10px;">
+                    <h4>Star Schema</h4>
+                    <p>Dimensions connect <strong>directly</strong> to the Fact table. High performance, less joins.</p>
+                    <code>Fact -> Dim_Product</code>
+                </div>
+                <div style="flex: 1; border: 1px solid #ddd; padding: 10px;">
+                    <h4>Snowflake Schema</h4>
+                    <p>Dimensions are <strong>normalized</strong> into sub-dimensions. Saves space, but slower queries.</p>
+                    <code>Fact -> Dim_Product -> Dim_Category</code>
+                </div>
+            </div>
+        </section>
 
-  <div class="btn-group">
-    <button onclick="showSCD(1)">Type 1</button>
-    <button onclick="showSCD(2)">Type 2</button>
-  </div>
+        <section id="scd">
+            <h2>6. Slowly Changing Dimensions (SCD)</h2>
+            <p>How do we handle when a customer changes their address?</p>
+            
+            <div>
+                <button class="scd-btn active" onclick="showSCD(0)">SCD 0</button>
+                <button class="scd-btn" onclick="showSCD(1)">SCD 1</button>
+                <button class="scd-btn" onclick="showSCD(2)">SCD 2</button>
+                <button class="scd-btn" onclick="showSCD(3)">SCD 3</button>
+            </div>
 
-  <div id="scd-info" class="info-box">
-    Select a type to understand behavior.
-  </div>
-</section>
+            <div id="scd-display" style="margin-top:20px;">
+                <h4 id="scd-title">SCD Type 0: Fixed</h4>
+                <p id="scd-desc">The attribute never changes. Useful for "Date of Birth" or "Original Order Date".</p>
+                <table id="scd-table">
+                    <thead><tr><th>ID</th><th>Name</th><th>City</th></tr></thead>
+                    <tbody id="scd-body">
+                        <tr><td>1</td><td>John</td><td>New York</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
-<!-- ================= SCHEMA ================= -->
-<section>
-  <h2>Star vs Snowflake</h2>
+    <script>
+        // Medallion Logic
+        function showMedallion(layer) {
+            const card = document.getElementById('medallion-detail');
+            const title = document.getElementById('medallion-title');
+            const desc = document.getElementById('medallion-desc');
+            const example = document.getElementById('medallion-example');
+            
+            card.style.display = 'block';
 
-  <div class="btn-group">
-    <button onclick="toggleSchema('star')">Star</button>
-    <button onclick="toggleSchema('snowflake')">Snowflake</button>
-  </div>
+            const data = {
+                bronze: {
+                    t: "Bronze Layer (Staging)",
+                    d: "The 'Raw' zone. Exact replica of source data. No cleaning, just ingestion. This ensures we can re-process data if logic changes later.",
+                    e: "<strong>Example:</strong> Raw JSON from an API with NULLs and weird formatting."
+                },
+                silver: {
+                    t: "Silver Layer (Enriched)",
+                    d: "The 'Clean' zone. Deduplication, filtering, and data type casting happens here. Often represented as 'One Big Table' (OBT).",
+                    e: "<strong>Example:</strong> <code>{ 'price': '10.0' }</code> becomes <code>Decimal(10.0)</code> and NULL names are filtered out."
+                },
+                gold: {
+                    t: "Gold Layer (Curated)",
+                    d: "The 'Knowledge' zone. Data is structured into Fact and Dimension tables for BI tools like PowerBI or Tableau.",
+                    e: "<strong>Example:</strong> A clean <code>FactSales</code> table joined to <code>DimDate</code> for revenue reporting."
+                }
+            };
 
-  <div id="schema-info" class="info-box">
-    Choose a schema to compare.
-  </div>
-</section>
+            title.innerText = data[layer].t;
+            desc.innerText = data[layer].d;
+            example.innerHTML = data[layer].e;
+        }
 
-</div>
+        // SCD Logic
+        function showSCD(type) {
+            // Update buttons
+            document.querySelectorAll('.scd-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-<script src="script.js"></script>
+            const title = document.getElementById('scd-title');
+            const desc = document.getElementById('scd-desc');
+            const body = document.getElementById('scd-body');
+            const header = document.querySelector('#scd-table thead tr');
+
+            if (type == 0) {
+                title.innerText = "SCD Type 0: Fixed";
+                desc.innerText = "No changes allowed. Historical data stays exactly as it was first recorded.";
+                header.innerHTML = "<th>ID</th><th>Name</th><th>City</th>";
+                body.innerHTML = "<tr><td>1</td><td>John</td><td>New York</td></tr>";
+            } else if (type == 1) {
+                title.innerText = "SCD Type 1: Overwrite";
+                desc.innerText = "Old data is replaced with new data. No history kept. (Great for fixing typos).";
+                header.innerHTML = "<th>ID</th><th>Name</th><th>City (Updated)</th>";
+                body.innerHTML = "<tr><td>1</td><td>John</td><td>Los Angeles</td></tr>";
+            } else if (type == 2) {
+                title.innerText = "SCD Type 2: Row Versioning";
+                desc.innerText = "Add a new row for every change with 'Current' flags. This is the Industry Standard for history.";
+                header.innerHTML = "<th>ID</th><th>City</th><th>Is_Current</th><th>Start_Date</th>";
+                body.innerHTML = `
+                    <tr><td>1</td><td>New York</td><td>N</td><td>2023-01-01</td></tr>
+                    <tr style="background:#e1f5fe"><td>1</td><td>Los Angeles</td><td>Y</td><td>2024-01-01</td></tr>
+                `;
+            } else if (type == 3) {
+                title.innerText = "SCD Type 3: Column Versioning";
+                desc.innerText = "Keep the current and previous values in the same row. Limited history (only shows one step back).";
+                header.innerHTML = "<th>ID</th><th>Current_City</th><th>Prev_City</th>";
+                body.innerHTML = "<tr><td>1</td><td>Los Angeles</td><td>New York</td></tr>";
+            }
+        }
+    </script>
 </body>
 </html>
