@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Data Engineer's Comprehensive Handbook</title>
+    <title>The Data Engineer's Playbook | Interactive Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -20,7 +20,7 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
@@ -64,33 +64,33 @@
         /* Tables */
         .table-container { overflow-x: auto; margin: 25px 0; border-radius: 10px; border: 1px solid #334155; background: #000; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 16px; border: 1px solid #1e293b; text-align: left; font-size: 0.85rem; }
-        th { background: #1e293b; color: var(--accent); text-transform: uppercase; }
+        th, td { padding: 14px; border: 1px solid #1e293b; text-align: left; font-size: 0.85rem; }
+        th { background: #1e293b; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Medallion Flow */
+        /* Medallion Flow with Arrows */
         .medallion-flex { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 50px 0; }
-        .m-box { flex: 1; padding: 40px 10px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.4s; font-weight: 800; color: white; border: 2px solid transparent; }
-        .m-box:hover { transform: translateY(-8px); border-color: white; }
+        .m-box { flex: 1; padding: 35px 15px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.4s; font-weight: 800; color: white; border: 2px solid transparent; }
+        .m-box:hover { transform: translateY(-8px); border-color: white; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
         .bronze { background: var(--bronze); }
         .silver { background: var(--silver); }
         .gold { background: var(--gold); }
         .flow-arrow { color: var(--text-dim); font-size: 1.5rem; }
 
-        /* Schema Visualization (Small Diagram, Big Table) */
+        /* Schema Visualization (Left small, Right big) */
         .schema-container { display: flex; flex-direction: column; gap: 30px; background: #020617; padding: 40px; border-radius: 20px; border: 1px solid #334155; }
-        .canvas-wrapper { display: flex; gap: 30px; align-items: flex-start; }
-        .canvas { flex: 0.8; position: relative; height: 500px; border: 1px solid #1e293b; border-radius: 12px; background: #010409; }
-        .side-panel { flex: 1.2; background: #111827; border-radius: 12px; padding: 30px; border: 1px solid var(--accent); min-height: 500px; }
+        .canvas-wrapper { display: flex; gap: 20px; align-items: flex-start; }
+        .canvas { flex: 0.7; position: relative; height: 500px; border: 1px solid #1e293b; border-radius: 12px; background: #010409; }
+        .side-panel { flex: 1.3; background: #111827; border-radius: 12px; padding: 30px; border: 1px solid var(--accent); min-height: 500px; }
 
         .db-node {
             position: absolute; padding: 10px; border: 2px solid var(--accent); border-radius: 6px;
             background: #1e293b; cursor: pointer; font-size: 0.75rem; font-weight: bold; width: 110px;
             text-align: center; z-index: 10; transition: 0.2s;
         }
-        .db-node.fact { border-color: var(--fact); background: #450a0a; width: 130px; }
+        .db-node.fact { border-color: var(--fact); background: #450a0a; color: #fff; width: 130px; }
         .db-node:hover { scale: 1.1; box-shadow: 0 0 15px var(--accent); }
 
-        /* SCD Toggle */
+        /* SCD Interaction */
         .scd-nav { display: flex; gap: 15px; margin-bottom: 30px; }
         .scd-btn { background: #334155; border: none; color: white; padding: 14px 28px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .scd-btn.active { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
@@ -102,12 +102,12 @@
 <body>
 
     <nav>
-        <h2>DE Handbook</h2>
+        <h2>The DE Playbook</h2>
         <ul>
             <li><a href="#modeling-intro">What is Data Modeling?</a></li>
             <li><a href="#oltp-olap">OLTP vs OLAP</a></li>
             <li><a href="#medallion">Medallion Flow</a></li>
-            <li><a href="#fact-dim-types">Fact & Dim Types</a></li>
+            <li><a href="#fact-dim-types">Fact & Dim Table Types</a></li>
             <li><a href="#surrogate">Surrogate Keys</a></li>
             <li><a href="#schema-viz">Star vs Snowflake</a></li>
             <li><a href="#scd-logic">SCD Management</a></li>
@@ -116,18 +116,23 @@
 
     <main>
         <section id="modeling-intro">
-            <h1>Data Modeling & The Ecosystem</h1>
-            <p>Data modeling is the architectural bridge between raw information and business intelligence. It defines how data points relate to one another and how they are physically stored. In Data Engineering, modeling is split into two worlds: <strong>OLTP</strong> for capturing data and <strong>OLAP</strong> for analyzing it.</p>
+            <h1>Data Modeling</h1>
+            <p>Data modeling is the architectural blueprint of how data is stored, connected, and accessed. In Data Engineering, modeling bridges the gap between raw application logs and business intelligence.</p>
+            <div class="infobox">
+                <p>Modeling ensures <strong>Data Integrity</strong> (it is correct), <strong>Performance</strong> (it is fast to query), and <strong>Cost Efficiency</strong> (it doesn't waste storage).</p>
+            </div>
         </section>
 
         <section id="oltp-olap">
             <h2>1. OLTP vs. OLAP</h2>
+            <p>To build a data platform, you must understand the difference between the source systems (OLTP) and the analytical systems you build (OLAP).</p>
+            
             <div class="infobox">
                 <h3>OLTP (Online Transactional Processing)</h3>
-                <p>OLTP systems are the <strong>Source</strong> of data. They are designed for high-concurrency, fast-paced "writes." When you buy a coffee or update your profile, an OLTP database (like Postgres) handles that single row change instantly.</p>
+                <p>These are "Operational" systems. They handle the daily transactions of a business (e.g., an ATM, a checkout counter, or a social media 'like'). They are optimized for <strong>High-Write speed</strong> and <strong>ACID compliance</strong>.</p>
                 
                 <h3>OLAP (Online Analytical Processing)</h3>
-                <p>OLAP systems are the <strong>Destination</strong>. They are designed for massive "reads." Instead of looking at one customer, OLAP scans millions of customers to find trends. It is the core of modern Data Warehousing.</p>
+                <p>These are "Analytical" systems. They are built for business intelligence. Instead of looking at a single order, OLAP scans millions of rows to find trends (e.g., "Monthly Revenue by Region"). They are optimized for <strong>High-Read speed</strong>.</p>
             </div>
 
             <div class="table-container">
@@ -140,11 +145,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>Full Form</strong></td><td>Online Transactional Processing</td><td>Online Analytical Processing</td></tr>
-                        <tr><td><strong>Primary Goal</strong></td><td>Operational efficiency (Run the business)</td><td>Data Analysis (Understand the business)</td></tr>
-                        <tr><td><strong>Data Model</strong></td><td>Normalized (3NF) - eliminates redundancy</td><td>Denormalized - fast query performance</td></tr>
-                        <tr><td><strong>Processing</strong></td><td>Fast, frequent updates (Milliseconds)</td><td>Massive, slow batch scans (Seconds/Minutes)</td></tr>
-                        <tr><td><strong>Data Age</strong></td><td>Real-time / Current</td><td>Historical / Aggregated</td></tr>
+                        <tr><td><strong>Goal</strong></td><td>Data Processing (Run the business)</td><td>Data Analysis (Analyze the business)</td></tr>
+                        <tr><td><strong>Format</strong></td><td>Normalized (3NF) to save space</td><td>Denormalized (Dimensional) for speed</td></tr>
+                        <tr><td><strong>Access</strong></td><td>Thousands of simple updates</td><td>Complex aggregations/joins</td></tr>
+                        <tr><td><strong>Speed</strong></td><td>Milliseconds (Instant)</td><td>Seconds to Minutes</td></tr>
+                        <tr><td><strong>Products</strong></td><td>PostgreSQL, MySQL, MongoDB</td><td>Snowflake, BigQuery, Databricks</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -152,48 +157,54 @@
 
         <section id="medallion">
             <h2>2. The Medallion Architecture</h2>
-            <p>Data flows from source systems through a refinement process. Click a layer to see the 5x5 data evolution.</p>
+            <p>Data doesn't just arrive perfectly. It flows through a "refinement" process. Click a layer to see the data transformation journey.</p>
             
             <div class="medallion-flex">
-                <div class="m-box bronze" onclick="updateMed('bronze')">SOURCE / BRONZE</div>
+                <div class="m-box bronze" onclick="updateMed('bronze')">BRONZE (Raw)</div>
                 <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
                 <div class="m-box silver" onclick="updateMed('silver')">SILVER (Enriched)</div>
                 <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-                <div class="m-box gold" onclick="updateMed('gold')">GOLD (Served)</div>
+                <div class="m-box gold" onclick="updateMed('gold')">GOLD (Curated)</div>
             </div>
 
             <div id="med-detail" class="infobox">
-                <p>Select a layer to view the transformation logic.</p>
+                <p>Select a layer to view the 5x5 data transformation logic.</p>
             </div>
         </section>
 
         <section id="fact-dim-types">
             <h2>3. Fact & Dimension Table Types</h2>
-            <p>The Gold layer organizes data into Facts (Numbers) and Dimensions (Attributes).</p>
+            <p>In the Gold layer, we separate data into <strong>Facts</strong> (Numbers) and <strong>Dimensions</strong> (Context). This structure is designed to answer "How much?" (Facts) and "By whom/when/where?" (Dimensions).</p>
             
             <div class="infobox">
-                <h3>Accumulating Snapshot Fact</h3>
-                <p>Unlike a Transactional Fact (which records one event), an <strong>Accumulating Fact</strong> tracks a lifecycle. Each row represents a single item, but multiple columns track its progress through different dates.</p>
+                <h3>Fact Tables</h3>
+                <p>Facts are the "events" or "measures." 
+                    <ul>
+                        <li><strong>Transactional:</strong> One row per event (e.g., A sale).</li>
+                        <li><strong>Periodic Snapshot:</strong> Aggregated views over time (e.g., Monthly balance).</li>
+                        <li><strong>Accumulating Snapshot:</strong> Tracks a lifecycle (e.g., Order -> Shipped -> Delivered).</li>
+                    </ul>
+                </p>
             </div>
 
             <div class="table-container">
-                <h4>Example: Accumulating Order Lifecycle (5x5)</h4>
+                <h4>Example: Accumulating Snapshot Fact (Tracking Order Lifecycle)</h4>
                 <table>
                     <thead>
                         <tr>
                             <th>order_id</th>
-                            <th>created_at</th>
+                            <th>user_sk</th>
+                            <th>ordered_at</th>
                             <th>shipped_at</th>
                             <th>delivered_at</th>
-                            <th>total_amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>1001</td><td>2024-01-01</td><td>2024-01-02</td><td>2024-01-05</td><td>$150.00</td></tr>
-                        <tr><td>1002</td><td>2024-01-01</td><td>2024-01-03</td><td>2024-01-06</td><td>$45.00</td></tr>
-                        <tr><td>1003</td><td>2024-01-02</td><td>2024-01-04</td><td>null</td><td>$200.00</td></tr>
-                        <tr><td>1004</td><td>2024-01-02</td><td>null</td><td>null</td><td>$15.00</td></tr>
-                        <tr><td>1005</td><td>2024-01-03</td><td>2024-01-05</td><td>2024-01-08</td><td>$320.00</td></tr>
+                        <tr><td>101</td><td>501</td><td>2024-01-01</td><td>2024-01-02</td><td>2024-01-05</td></tr>
+                        <tr><td>102</td><td>502</td><td>2024-01-01</td><td>2024-01-03</td><td>2024-01-06</td></tr>
+                        <tr><td>103</td><td>503</td><td>2024-01-02</td><td>null</td><td>null</td></tr>
+                        <tr><td>104</td><td>504</td><td>2024-01-02</td><td>2024-01-02</td><td>null</td></tr>
+                        <tr><td>105</td><td>505</td><td>2024-01-03</td><td>2024-01-04</td><td>2024-01-08</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -202,21 +213,19 @@
         <section id="surrogate">
             <h2>4. Surrogate Keys</h2>
             <div class="infobox">
-                <p>A <strong>Surrogate Key</strong> is a system-generated unique identifier (usually an integer like 1, 2, 3) used as the Primary Key in a dimension table.</p>
-                <p><strong>Why use them instead of Natural Keys (like Email)?</strong></p>
-                <ul>
-                    <li><strong>Stability:</strong> If a user changes their email, the Surrogate Key stays the same, keeping historical joins intact.</li>
-                    <li><strong>Performance:</strong> Joining on a small 4-byte integer is much faster than joining on a 50-character string.</li>
-                    <li><strong>SCD Management:</strong> Required for SCD Type 2 tracking, where one natural ID might have multiple rows.</li>
-                </ul>
+                <p>A <strong>Surrogate Key</strong> is a system-generated unique identifier (like 1, 2, 3...) used as the Primary Key in a dimension table.</p>
+                <p><strong>Why use them?</strong> 
+                1. Performance (Joining on integers is faster than strings like Email). 
+                2. Stability (If a customer changes their email, your foreign keys don't break). 
+                3. Historical tracking (Essential for SCD Type 2).</p>
             </div>
         </section>
 
         <section id="schema-viz">
             <h2>5. Star vs. Snowflake Schema</h2>
             <div class="infobox">
-                <p><strong>Star Schema:</strong> The simplest model where all dimensions connect directly to a central fact. Fastest performance.</p>
-                <p><strong>Snowflake Schema:</strong> A normalized model where dimensions connect to other sub-dimensions. Saves space but slows queries due to more joins.</p>
+                <p><strong>Star Schema:</strong> Dimensions connect directly to the central Fact table. It is fast and simple.</p>
+                <p><strong>Snowflake Schema:</strong> Dimensions are normalized into sub-dimensions. It saves space but requires more complex joins.</p>
             </div>
             
             <div class="scd-nav">
@@ -230,39 +239,43 @@
                         <svg id="svg-layer"></svg>
                     </div>
                     <div class="side-panel" id="panel">
-                        <h3>Table View</h3>
-                        <p>Click a box to view its full 5x5 data structure.</p>
+                        <h3>Table Preview</h3>
+                        <p>Click any box in the diagram to view its full 5x5 data table.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="scd-logic">
-            <h2>6. SCD (Slowly Changing Dimensions)</h2>
+            <h2>6. Slowly Changing Dimensions (SCD)</h2>
+            <p>Business data changes. If a user moves from <strong>NY</strong> to <strong>Texas</strong>, how do we track it? SCD strategies define how to handle these history changes.</p>
+            
             <div class="scd-nav" id="scd-btns">
-                <button class="scd-btn active" onclick="updateSCD(0)">Type 0</button>
-                <button class="scd-btn" onclick="updateSCD(1)">Type 1</button>
-                <button class="scd-btn" onclick="updateSCD(2)">Type 2</button>
-                <button class="scd-btn" onclick="updateSCD(3)">Type 3</button>
+                <button class="scd-btn active" onclick="updateSCD(0)">Type 0 (Fixed)</button>
+                <button class="scd-btn" onclick="updateSCD(1)">Type 1 (Overwrite)</button>
+                <button class="scd-btn" onclick="updateSCD(2)">Type 2 (History)</button>
+                <button class="scd-btn" onclick="updateSCD(3)">Type 3 (Previous)</button>
             </div>
-            <div id="scd-info"></div>
+
+            <div id="scd-info">
+                </div>
         </section>
     </main>
 
     <script>
-        // --- Medallion Transformation Data ---
+        // --- Medallion Logic ---
         function updateMed(layer) {
             const el = document.getElementById('med-detail');
             const data = {
-                bronze: { t: "Bronze (Raw / Staging)", d: "Exact source replica. Messy JSON blobs and raw metadata.", cols: ["row_id", "payload", "ingest_at", "source", "valid"], rows: [["1", '{"amt": 100}', "10:00", "API", "Y"], ["2", '{"amt": 50}', "10:05", "CRM", "Y"], ["3", "null", "10:10", "WEB", "N"], ["4", '{"amt": 200}', "10:15", "WEB", "Y"], ["5", '{"amt": 10}', "10:20", "CRM", "Y"]] },
-                silver: { t: "Silver (Enriched / One Big Table)", d: "Cleaned and unified OBT. Unified formats and deduplicated.", cols: ["user_id", "user_name", "city", "amount", "updated_at"], rows: [["101", "Alice", "NY", "100.00", "2024-01"], ["102", "Bob", "LA", "50.00", "2024-01"], ["103", "Charlie", "TX", "0.00", "2024-01"], ["104", "Dave", "WA", "200.00", "2024-01"], ["105", "Eve", "FL", "10.00", "2024-01"]] },
-                gold: { t: "Gold (Curated / Serving)", d: "Highly optimized dimensional model for BI dashboards.", cols: ["fact_sk", "user_sk", "date_sk", "qty", "rev"], rows: [["1", "501", "2024", "1", "100"], ["2", "502", "2024", "1", "50"], ["3", "501", "2024", "1", "100"], ["4", "503", "2024", "2", "200"], ["5", "504", "2024", "1", "10"]] }
+                bronze: { t: "Bronze (Staging / Raw)", d: "Exact source replica. Includes messy JSON and raw metadata.", cols: ["id", "payload", "ingest_at", "source", "valid"], rows: [["1", '{"amt": 100}', "10:00", "API", "Y"], ["2", '{"amt": 50}', "10:05", "CRM", "Y"], ["3", "null", "10:10", "WEB", "N"], ["4", '{"amt": 200}', "10:15", "WEB", "Y"], ["5", '{"amt": 10}', "10:20", "CRM", "Y"]] },
+                silver: { t: "Silver (Enriched / One Big Table)", d: "Cleansed and unified OBT. Formats standardized and deduplicated.", cols: ["user_id", "user_name", "city", "amount", "updated_at"], rows: [["101", "Alice", "NY", "100.00", "2024-01"], ["102", "Bob", "LA", "50.00", "2024-01"], ["103", "Charlie", "TX", "0.00", "2024-01"], ["104", "Dave", "WA", "200.00", "2024-01"], ["105", "Eve", "FL", "10.00", "2024-01"]] },
+                gold: { t: "Gold (Curated / Serving)", d: "Optimized dimensional model for BI reporting. Numbers split from context.", cols: ["fact_sk", "user_sk", "date_sk", "qty", "rev"], rows: [["1", "501", "2024", "1", "100"], ["2", "502", "2024", "1", "50"], ["3", "501", "2024", "1", "100"], ["4", "503", "2024", "2", "200"], ["5", "504", "2024", "1", "10"]] }
             };
             const l = data[layer];
             el.innerHTML = `<h3>${l.t}</h3><p>${l.d}</p><div class="table-container"><table><tr>${l.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${l.rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table></div>`;
         }
 
-        // --- Schema Visualizer Logic ---
+        // --- Schema Visualizer (Sized Proportions) ---
         const tables = {
             fact: { name: "FactSales", cols: ["sale_sk", "u_fk", "p_fk", "d_fk", "rev"], rows: [["1","501","P1","D1","100"],["2","502","P2","D1","50"],["3","501","P1","D2","100"],["4","503","P3","D2","200"],["5","504","P1","D3","100"]] },
             user: { name: "DimUser", cols: ["u_sk", "id", "name", "city", "reg"], rows: [["501","A","Alice","NY","E"],["502","B","Bob","LA","W"],["503","C","Charlie","TX","S"],["504","D","Dave","WA","W"],["505","E","Eve","FL","S"]] },
@@ -321,10 +334,10 @@
             btns.forEach((b, i) => b.className = i === type ? 'scd-btn active' : 'scd-btn');
 
             const scd = {
-                0: { t: "SCD 0: Fixed", d: "No changes. Values stay as they were at ingestion.", cols: ["sk", "id", "name", "city", "added_on"], rows: [["1", "101", "Alice", "NY", "2020"], ["2", "102", "Bob", "LA", "2020"], ["3", "103", "Charlie", "TX", "2021"], ["4", "104", "Dave", "WA", "2021"], ["5", "105", "Eve", "FL", "2022"]] },
-                1: { t: "SCD 1: Overwrite", d: "History is deleted. New value replaces the old.", cols: ["sk", "id", "name", "city (Updated)", "upd_ts"], rows: [["1", "101", "Alice", "Texas", "2024"], ["2", "102", "Bob", "LA", "2020"], ["3", "103", "Charlie", "TX", "2021"], ["4", "104", "Dave", "WA", "2021"], ["5", "105", "Eve", "FL", "2022"]] },
-                2: { t: "SCD 2: Row Versioning", d: "The standard. New row added for every change with timestamps.", cols: ["sk", "id", "city", "curr", "start", "end"], rows: [["1", "101", "NY", "N", "2020", "2024"], ["10", "101", "Texas", "Y", "2024", "9999"], ["2", "102", "LA", "Y", "2020", "9999"], ["3", "103", "TX", "Y", "2021", "9999"], ["4", "104", "WA", "Y", "2021", "9999"]] },
-                3: { t: "SCD 3: Column Versioning", d: "Previous vs Current columns. Only one change tracked.", cols: ["sk", "id", "name", "curr_city", "prev_city"], rows: [["1", "101", "Alice", "Texas", "NY"], ["2", "102", "Bob", "LA", "null"], ["3", "103", "Charlie", "TX", "null"], ["4", "104", "Dave", "WA", "null"], ["5", "105", "Eve", "FL", "null"]] }
+                0: { t: "SCD 0: Fixed", d: "Original values are kept. No updates allowed. (e.g. Birth Date).", cols: ["sk", "id", "name", "city", "added_on"], rows: [["1", "101", "Alice", "NY", "2020"], ["2", "102", "Bob", "LA", "2020"], ["3", "103", "Charlie", "TX", "2021"], ["4", "104", "Dave", "WA", "2021"], ["5", "105", "Eve", "FL", "2022"]] },
+                1: { t: "SCD 1: Overwrite", d: "History is deleted. New value replaces the old. (e.g. Spelling fix).", cols: ["sk", "id", "name", "city (Updated)", "upd_ts"], rows: [["1", "101", "Alice", "Texas", "2024"], ["2", "102", "Bob", "LA", "2020"], ["3", "103", "Charlie", "TX", "2021"], ["4", "104", "Dave", "WA", "2021"], ["5", "105", "Eve", "FL", "2022"]] },
+                2: { t: "SCD 2: Row Versioning", d: "The Industry standard. New row added for every change with timestamps.", cols: ["sk", "id", "city", "curr", "start", "end"], rows: [["1", "101", "NY", "N", "2020", "2024"], ["10", "101", "Texas", "Y", "2024", "9999"], ["2", "102", "LA", "Y", "2020", "9999"], ["3", "103", "TX", "Y", "2021", "9999"], ["4", "104", "WA", "Y", "2021", "9999"]] },
+                3: { t: "SCD 3: Column Versioning", d: "Previous vs Current columns. Only the last change is tracked.", cols: ["sk", "id", "name", "curr_city", "prev_city"], rows: [["1", "101", "Alice", "Texas", "NY"], ["2", "102", "Bob", "LA", "null"], ["3", "103", "Charlie", "TX", "null"], ["4", "104", "Dave", "WA", "null"], ["5", "105", "Eve", "FL", "null"]] }
             };
             const s = scd[type];
             document.getElementById('scd-info').innerHTML = `<div class="infobox"><h3>${s.t}</h3><p>${s.d}</p></div><div class="table-container"><table><tr>${s.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${s.rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table></div>`;
