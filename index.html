@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Data Engineer's Modeling Handbook</title>
+    <title>The Data Engineer's Playbook</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,13 +14,13 @@
             --text-dim: #94a3b8;
             --card: #1e293b;
             --bronze: #cd7f32;
-            --silver: #bdc3c7;
-            --gold: #f1c40f;
-            --code-bg: #000000;
+            --silver: #94a3b8;
+            --gold: #fbbf24;
+            --fact: #f43f5e;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
@@ -28,112 +28,117 @@
             line-height: 1.6;
         }
 
-        /* Sidebar */
+        /* Fixed Sidebar */
         nav {
-            width: 280px;
+            width: 260px;
             background: var(--sidebar);
             height: 100vh;
             position: fixed;
-            padding: 20px;
+            padding: 30px 20px;
             border-right: 1px solid #334155;
             overflow-y: auto;
+            z-index: 10;
         }
 
-        nav h2 { font-size: 1.1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        nav h2 { font-size: 1.2rem; color: var(--accent); margin-bottom: 2rem; }
         nav ul { list-style: none; padding: 0; }
-        nav ul li { margin: 12px 0; }
-        nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        nav ul li a:hover { color: var(--accent); }
+        nav ul li { margin-bottom: 15px; }
+        nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; transition: 0.2s; }
+        nav ul li a:hover { color: var(--accent); padding-left: 5px; }
 
-        /* Content */
-        main { margin-left: 280px; padding: 40px; width: 100%; max-width: 1100px; }
-        section { margin-bottom: 80px; scroll-margin-top: 40px; }
-        h1 { font-size: 2.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
-        h2 { color: var(--accent); font-size: 1.8rem; margin-top: 40px; }
+        /* Main Content with Correct Spacing */
+        main { 
+            margin-left: 300px; /* Space for sidebar + extra gap */
+            padding: 50px 60px; /* Generous breathing room */
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        section { margin-bottom: 100px; scroll-margin-top: 50px; }
+        h1 { font-size: 2.8rem; margin-bottom: 10px; }
+        h2 { color: var(--accent); font-size: 2rem; border-bottom: 1px solid #334155; padding-bottom: 10px; }
         h3 { color: #5eead4; margin-top: 30px; }
-        
-        .infobox { background: #1e293b; border-left: 4px solid var(--accent); padding: 20px; margin: 20px 0; border-radius: 4px; }
-        
-        /* Tables */
-        .table-container { overflow-x: auto; margin: 20px 0; background: #000; padding: 15px; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th, td { padding: 10px; border: 1px solid #334155; text-align: left; }
-        th { background: #334155; color: var(--accent); }
+        p { font-size: 1.1rem; color: #cbd5e1; }
+
+        .infobox { background: #1e293b; border-left: 4px solid var(--accent); padding: 25px; margin: 25px 0; border-radius: 8px; }
+
+        /* AWS Table Styles */
+        .table-container { overflow-x: auto; margin: 30px 0; border-radius: 8px; border: 1px solid #334155; }
+        table { width: 100%; border-collapse: collapse; background: #0f172a; }
+        th, td { padding: 15px; border: 1px solid #334155; text-align: left; font-size: 0.95rem; }
+        th { background: #1e293b; color: var(--accent); }
 
         /* Medallion Flow */
-        .medallion-wrapper { display: flex; align-items: center; justify-content: space-between; margin: 40px 0; }
-        .m-step { 
-            flex: 1; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; 
-            transition: 0.3s; border: 2px solid transparent; 
+        .medallion-flex { display: flex; align-items: center; gap: 20px; margin: 40px 0; }
+        .m-box { flex: 1; padding: 30px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .m-box:hover { filter: brightness(1.2); transform: scale(1.02); }
+        .bronze { background: var(--bronze); color: white; }
+        .silver { background: var(--silver); color: #0f172a; }
+        .gold { background: var(--gold); color: #0f172a; }
+
+        /* Schema Visualization Area */
+        .schema-container { display: flex; gap: 30px; background: #111827; padding: 30px; border-radius: 15px; min-height: 500px; border: 1px solid #334155; }
+        .canvas { flex: 2; position: relative; height: 450px; }
+        .side-panel { flex: 1; background: var(--bg); border: 1px solid var(--accent); border-radius: 10px; padding: 20px; overflow-y: auto; }
+
+        .db-node {
+            position: absolute; padding: 12px; border: 2px solid var(--accent); border-radius: 6px;
+            background: #1e293b; cursor: pointer; font-size: 0.8rem; font-weight: bold; width: 110px;
+            text-align: center; z-index: 5; transition: 0.2s;
         }
-        .m-step:hover { transform: translateY(-5px); border-color: white; }
-        .b-bg { background: var(--bronze); color: white; }
-        .s-bg { background: var(--silver); color: #000; }
-        .g-bg { background: var(--gold); color: #000; }
+        .db-node:hover { background: var(--accent); color: #000; }
+        .db-node.fact { border-color: var(--fact); width: 140px; color: #fff; }
 
-        /* Schema Interactive Area */
-        .interactive-schema { display: flex; gap: 20px; background: #1e293b; padding: 20px; border-radius: 12px; height: 500px; }
-        .visualizer { flex: 2; position: relative; border: 1px solid #334155; border-radius: 8px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 20px; }
-        .detail-panel { flex: 1; background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid var(--accent); overflow-y: auto; }
-        
-        .box { padding: 15px; border: 1px solid var(--accent); border-radius: 4px; cursor: pointer; background: #0f172a; text-align: center; font-size: 0.8rem; min-width: 100px; transition: 0.2s; }
-        .box:hover { background: var(--accent); color: #000; }
-        .box.fact { border: 2px solid #f43f5e; width: 150px; }
-
-        /* SCD Toggle */
-        .scd-btn-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .scd-btn { background: #334155; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
+        /* SCD Interaction */
+        .scd-nav { display: flex; gap: 10px; margin-bottom: 20px; }
+        .scd-btn { background: #334155; border: none; color: white; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .scd-btn.active { background: var(--accent); color: #000; }
 
-        code { background: #000; color: #f43f5e; padding: 2px 5px; border-radius: 4px; }
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #475569; stroke-width: 2; }
     </style>
 </head>
 <body>
 
     <nav>
-        <h2>The DE Playbook</h2>
+        <h2>THE DE PLAYBOOK</h2>
         <ul>
             <li><a href="#intro">Introduction</a></li>
-            <li><a href="#oltp-olap">OLTP vs OLAP</a></li>
-            <li><a href="#medallion">Medallion Architecture</a></li>
-            <li><a href="#obt-gold">OBT & The Gold Layer</a></li>
-            <li><a href="#facts-dims">Facts & Dimensions</a></li>
-            <li><a href="#star-snowflake">Star vs Snowflake</a></li>
-            <li><a href="#surrogate">Surrogate Keys</a></li>
-            <li><a href="#scd">SCD Types (0-3)</a></li>
+            <li><a href="#oltp-olap">OLTP vs OLAP (AWS)</a></li>
+            <li><a href="#medallion">Medallion Flow</a></li>
+            <li><a href="#obt">OBT to Dimensional</a></li>
+            <li><a href="#schemas">Star & Snowflake</a></li>
+            <li><a href="#scd">SCD Types 0-3</a></li>
         </ul>
     </nav>
 
     <main>
         <section id="intro">
-            <h1>Data Modeling for Engineers</h1>
-            <p>Why do we model data? In source systems (Apps), we care about <strong>writing</strong> data fast. In Data Engineering, we care about <strong>reading</strong> data fast for analytics. Data modeling is the bridge that transforms messy, operational records into clean, business-ready insights.</p>
+            <h1>Data Modeling for Data Engineers</h1>
+            <p>Data modeling isn't just about drawing boxes; it's about optimizing data for human and machine consumption. We move from <strong>High-Write</strong> systems to <strong>High-Read</strong> systems.</p>
         </section>
 
         <section id="oltp-olap">
-            <h2>1. The Starting Point: OLTP vs OLAP</h2>
-            <div class="infobox">
-                <h3>OLTP (Online Transactional Processing)</h3>
-                <p>Designed for the "Front-end." When a user clicks 'Buy', the database needs to record that single row instantly. It uses <strong>Normalization</strong> to prevent data duplication. If a user changes their name, it changes in one place.</p>
-                
-                <h3>OLAP (Online Analytical Processing)</h3>
-                <p>Designed for the "Back-end." When a CEO asks 'Total sales by region', the database needs to scan millions of rows. It uses <strong>Denormalization</strong> to reduce joins and speed up massive calculations.</p>
-            </div>
-
+            <h2>1. OLTP vs OLAP: Detailed Comparison</h2>
+            <p>Based on <i>AWS Architecture Standards</i>, here are the fundamental differences between transactional and analytical systems:</p>
+            
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Feature</th>
-                            <th>OLTP (Source)</th>
-                            <th>OLAP (Warehouse)</th>
+                            <th>OLTP (Transactional)</th>
+                            <th>OLAP (Analytical)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>Purpose</strong></td><td>Run the business (Transactions)</td><td>Analyze the business (Insights)</td></tr>
-                        <tr><td><strong>Formatting</strong></td><td>Normalized (3NF)</td><td>Denormalized (Star/Snowflake)</td></tr>
-                        <tr><td><strong>Read/Write</strong></td><td>Heavy Writes, Simple Reads</td><td>Heavy Reads, Complex Aggregations</td></tr>
-                        <tr><td><strong>Examples</strong></td><td>Postgres, MySQL</td><td>Snowflake, BigQuery, Databricks</td></tr>
+                        <tr><td><strong>Main Goal</strong></td><td>Data Processing (Recording transactions)</td><td>Data Analysis (Decision making)</td></tr>
+                        <tr><td><strong>Data Source</strong></td><td>Operational databases (ERP, CRM)</td><td>Data Warehouse / Data Lake</td></tr>
+                        <tr><td><strong>Data Model</strong></td><td>Normalized (3NF) - eliminates redundancy</td><td>Denormalized (Star/Snowflake) - fast joins</td></tr>
+                        <tr><td><strong>Processing Speed</strong></td><td>Milliseconds (Fast updates/writes)</td><td>Seconds to Hours (Massive read scans)</td></tr>
+                        <tr><td><strong>Concurrency</strong></td><td>High (Thousands of simultaneous users)</td><td>Low (Small teams of analysts/BI tools)</td></tr>
+                        <tr><td><strong>Backup/Recovery</strong></td><td>Mission critical, needs frequent backups</td><td>Less critical, data can be re-run from source</td></tr>
+                        <tr><td><strong>Example Query</strong></td><td>"Insert customer order #552"</td><td>"Total revenue growth per region in Q4"</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -141,171 +146,161 @@
 
         <section id="medallion">
             <h2>2. The Medallion Architecture</h2>
-            <p>Data doesn't just arrive perfectly. It goes through a "refining" process.</p>
-            
-            <div class="medallion-wrapper">
-                <div class="m-step b-bg" onclick="updateMedallion('bronze')">BRONZE<br><small>Staging / Raw</small></div>
-                <div style="padding:0 10px">➔</div>
-                <div class="m-step s-bg" onclick="updateMedallion('silver')">SILVER<br><small>Enriched / Clean</small></div>
-                <div style="padding:0 10px">➔</div>
-                <div class="m-step g-bg" onclick="updateMedallion('gold')">GOLD<br><small>Curated / Served</small></div>
+            <p>Data refinement occurs in stages. Click each box to see the transformation.</p>
+            <div class="medallion-flex">
+                <div class="m-box bronze" onclick="showMedDetail('bronze')">BRONZE (Raw)</div>
+                <i class="fas fa-arrow-right"></i>
+                <div class="m-box silver" onclick="showMedDetail('silver')">SILVER (Enriched)</div>
+                <i class="fas fa-arrow-right"></i>
+                <div class="m-box gold" onclick="showMedDetail('gold')">GOLD (Curated)</div>
             </div>
-
-            <div id="medallion-info" class="infobox">
-                <p>Click a layer above to see how data transforms from <strong>Source</strong> to <strong>Analytics</strong>.</p>
+            <div id="med-info" class="infobox">
+                <p>Select a layer to see the data detail.</p>
             </div>
         </section>
 
-        <section id="obt-gold">
+        <section id="obt">
             <h2>3. From OBT to Dimensional Gold</h2>
-            <p>In the <strong>Silver Layer</strong>, we often create <strong>One Big Table (OBT)</strong>. This is a massive table where all source joins (User + Order + Product) are already done.</p>
+            <p>In the <strong>Silver Layer</strong>, we often build <strong>One Big Table (OBT)</strong>. This is a massive, denormalized table containing everything needed for cleaning.</p>
             <div class="infobox">
-                <p><strong>Why OBT?</strong> It’s easy for data scientists to query. However, for large scale BI, we divide this OBT into the <strong>Gold Layer</strong> (Fact and Dimension tables).</p>
+                <h3>Why split OBT into Gold?</h3>
+                <p>While OBT is great for simple scripts, <strong>Dimensional Modeling</strong> (Facts and Dims) in Gold allows:</p>
                 <ul>
-                    <li><strong>Fact Tables:</strong> Contain the "Quantitative" data (metrics, numbers).</li>
-                    <li><strong>Dimension Tables:</strong> Contain the "Qualitative" data (who, what, where).</li>
+                    <li><strong>Space Efficiency:</strong> Product details are stored once in a Dimension, not repeated a million times in the Fact.</li>
+                    <li><strong>Conformed Consistency:</strong> Using the same 'Date' table for Sales and Shipping prevents metric discrepancies.</li>
                 </ul>
             </div>
         </section>
 
-        <section id="facts-dims">
-            <h2>4. Types of Facts & Dimensions</h2>
-            
-            <h3>Fact Table Types</h3>
-            <ul>
-                <li><strong>Transactional:</strong> One row per event (e.g., A single sale).</li>
-                <li><strong>Periodic Snapshot:</strong> Summarizes data over a period (e.g., Monthly bank balance).</li>
-                <li><strong>Accumulating Snapshot:</strong> Tracks a process with a start and end (e.g., Order -> Shipped -> Delivered).</li>
-            </ul>
-
-            <h3>Dimension Table Types</h3>
-            <ul>
-                <li><strong>Conformed:</strong> A dimension used by multiple facts (e.g., A "Date" table shared by Sales and Inventory).</li>
-                <li><strong>Role-Playing:</strong> One table used for multiple purposes (e.g., "Date" table acts as both "Order Date" and "Ship Date").</li>
-            </ul>
-        </section>
-
-        <section id="star-snowflake">
-            <h2>5. Schemas: Star vs. Snowflake</h2>
-            <p>Click on the tables in the visualizer to see the schema details in the side panel.</p>
-            
-            <div class="scd-btn-group">
-                <button class="scd-btn active" onclick="setSchema('star')">Star Schema</button>
-                <button class="scd-btn" onclick="setSchema('snowflake')">Snowflake Schema</button>
+        <section id="schemas">
+            <h2>4. Star & Snowflake Visualization</h2>
+            <div class="scd-nav">
+                <button id="starBtn" class="scd-btn active" onclick="drawSchema('star')">Star Schema</button>
+                <button id="snowBtn" class="scd-btn" onclick="drawSchema('snowflake')">Snowflake Schema</button>
             </div>
-
-            <div class="interactive-schema">
-                <div id="schema-visualizer" class="visualizer">
+            
+            <div class="schema-container">
+                <div class="canvas" id="canvas">
+                    <svg id="svg-layer"></svg>
                     </div>
-                <div id="schema-detail" class="detail-panel">
+                <div class="side-panel" id="schema-panel">
                     <h3>Table Detail</h3>
-                    <p>Select a table from the diagram to view its columns and rows.</p>
+                    <p>Click any box in the diagram to inspect the data columns.</p>
                 </div>
             </div>
         </section>
 
-        <section id="surrogate">
-            <h2>6. The Surrogate Key</h2>
-            <div class="infobox">
-                <p>A <strong>Surrogate Key</strong> is a system-generated unique identifier (usually an integer like 1, 2, 3) that acts as the Primary Key in a dimension table. </p>
-                <p><strong>Why not use Natural Keys (Email/ID)?</strong> If a user changes their email, your foreign keys in the Fact table won't break. It also makes joins significantly faster than joining on long strings.</p>
-            </div>
-        </section>
-
         <section id="scd">
-            <h2>7. Slowly Changing Dimensions (SCD)</h2>
-            <p>How do we handle changes over time? (Example: User 101 moves from NY to CA).</p>
-            
-            <div class="scd-btn-group">
-                <button class="scd-btn active" onclick="updateSCD(0)">Type 0</button>
-                <button class="scd-btn" onclick="updateSCD(1)">Type 1</button>
-                <button class="scd-btn" onclick="updateSCD(2)">Type 2</button>
-                <button class="scd-btn" onclick="updateSCD(3)">Type 3</button>
+            <h2>5. Slowly Changing Dimensions (SCD)</h2>
+            <p>Managing how history is tracked when attributes change (e.g., a customer moves to a new city).</p>
+            <div class="scd-nav">
+                <button class="scd-btn active" onclick="showSCD(0)">SCD 0</button>
+                <button class="scd-btn" onclick="showSCD(1)">SCD 1</button>
+                <button class="scd-btn" onclick="showSCD(2)">SCD 2</button>
+                <button class="scd-btn" onclick="showSCD(3)">SCD 3</button>
             </div>
-
-            <div id="scd-content" class="infobox">
+            <div id="scd-box" class="infobox">
                 </div>
         </section>
     </main>
 
     <script>
-        // --- Medallion Logic ---
-        function updateMedallion(layer) {
-            const info = document.getElementById('medallion-info');
-            const data = {
-                bronze: {
-                    title: "Bronze (Staging / Raw)",
-                    desc: "Exactly as it looks in the source. Messy JSON, nulls, and all.",
-                    table: "<table><tr><th>order_id</th><th>data_blob</th></tr><tr><td>99</td><td>{'user': 'A1', 'price': 10}</td></tr></table>"
-                },
-                silver: {
-                    title: "Silver (Enriched / One Big Table)",
-                    desc: "Data is cleaned, parsed, and joined into a single wide table.",
-                    table: "<table><tr><th>order_id</th><th>user_name</th><th>price</th></tr><tr><td>99</td><td>Alice</td><td>10.00</td></tr></table>"
-                },
-                gold: {
-                    title: "Gold (Analytical / Curated)",
-                    desc: "OBT is split into Fact and Dim for the final BI report.",
-                    table: "<table><tr><th>fact_id</th><th>user_key</th><th>amt</th></tr><tr><td>1</td><td>505</td><td>10.00</td></tr></table>"
-                }
+        // --- Medallion Data ---
+        function showMedDetail(layer) {
+            const info = document.getElementById('med-info');
+            const map = {
+                bronze: ["Raw Data", "Exact copy of source system. Includes duplicates and messy formats.", "<code>{id: 1, val: 'laptop', ts: '23-01'}</code>"],
+                silver: ["Enriched Data (OBT)", "Deduplicated, standardized, and joined. Often used for ad-hoc analysis.", "<code>id: 1 | item: Laptop | price: 1200.00</code>"],
+                gold: ["Curated Data (Facts/Dims)", "The Gold standard. Optimized for PowerBI/Tableau reporting.", "<code>FactSales -> DimProduct</code>"]
             };
-            const selected = data[layer];
-            info.innerHTML = `<h3>${selected.title}</h3><p>${selected.desc}</p><div class="table-container">${selected.table}</div>`;
+            const [t, d, c] = map[layer];
+            info.innerHTML = `<h3>${t}</h3><p>${d}</p><pre>${c}</pre>`;
         }
 
         // --- Schema Visualizer Logic ---
-        const schemaData = {
-            fact_sales: { name: "FACT_SALES", type: "fact", cols: ["sale_key (PK)", "prod_key (FK)", "user_key (FK)", "amount"], rows: [["1", "10", "505", "100.00"]] },
-            dim_user: { name: "DIM_USER", type: "dim", cols: ["user_key (PK)", "name", "city"], rows: [["505", "Alice", "NY"]] },
-            dim_prod: { name: "DIM_PRODUCT", type: "dim", cols: ["prod_key (PK)", "name", "cat_id (FK)"], rows: [["10", "Laptop", "1"]] },
-            dim_cat: { name: "DIM_CATEGORY", type: "dim", cols: ["cat_id (PK)", "cat_name"], rows: [["1", "Electronics"]] }
+        const tableDetails = {
+            fact: { name: "FactSales", cols: ["sale_id", "prod_key (FK)", "user_key (FK)", "qty", "amount"] },
+            dim_user: { name: "DimUser", cols: ["user_key (PK)", "user_id", "name", "region"] },
+            dim_prod: { name: "DimProduct", cols: ["prod_key (PK)", "name", "category_id (FK)"] },
+            dim_date: { name: "DimDate", cols: ["date_key (PK)", "day", "month", "year"] },
+            dim_cat: { name: "DimCategory", cols: ["category_id (PK)", "cat_name"] }
         };
 
-        function setSchema(type) {
-            const viz = document.getElementById('schema-visualizer');
-            viz.innerHTML = "";
-            const tables = type === 'star' ? ['dim_user', 'fact_sales', 'dim_prod'] : ['dim_user', 'fact_sales', 'dim_prod', 'dim_cat'];
+        function drawSchema(type) {
+            const canvas = document.getElementById('canvas');
+            const svg = document.getElementById('svg-layer');
+            const panel = document.getElementById('schema-panel');
             
-            tables.forEach(t => {
-                const box = document.createElement('div');
-                box.className = `box ${schemaData[t].type}`;
-                box.innerText = schemaData[t].name;
-                box.onclick = () => showDetail(t);
-                viz.appendChild(box);
+            // Cleanup
+            canvas.querySelectorAll('.db-node').forEach(n => n.remove());
+            svg.innerHTML = "";
+            document.getElementById('starBtn').classList.toggle('active', type === 'star');
+            document.getElementById('snowBtn').classList.toggle('active', type === 'snowflake');
+
+            // Coordinates
+            const centers = { x: 220, y: 220 };
+            const nodes = [
+                { id: 'fact', x: centers.x - 70, y: centers.y - 30, class: 'fact' },
+                { id: 'dim_user', x: 50, y: 50 },
+                { id: 'dim_date', x: 320, y: 50 },
+                { id: 'dim_prod', x: centers.x - 55, y: 380 }
+            ];
+
+            if (type === 'snowflake') {
+                nodes.push({ id: 'dim_cat', x: 100, y: 380 });
+            }
+
+            nodes.forEach(n => {
+                const div = document.createElement('div');
+                div.className = `db-node ${n.class || ''}`;
+                div.style.left = n.x + 'px';
+                div.style.top = n.y + 'px';
+                div.innerText = tableDetails[n.id].name;
+                div.onclick = () => {
+                    panel.innerHTML = `<h3>${tableDetails[n.id].name}</h3><ul>` + 
+                        tableDetails[n.id].cols.map(c => `<li>${c}</li>`).join('') + `</ul>`;
+                };
+                canvas.appendChild(div);
+
+                // Draw lines to center fact (except fact itself)
+                if (n.id !== 'fact' && n.id !== 'dim_cat') {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', n.x + 55);
+                    line.setAttribute('y1', n.y + 25);
+                    line.setAttribute('x2', centers.x);
+                    line.setAttribute('y2', centers.y);
+                    svg.appendChild(line);
+                }
             });
 
-            document.querySelectorAll('.scd-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        function showDetail(key) {
-            const table = schemaData[key];
-            const detail = document.getElementById('schema-detail');
-            let html = `<h3>${table.name}</h3><table><tr>`;
-            table.cols.forEach(c => html += `<th>${c}</th>`);
-            html += "</tr><tr>";
-            table.rows[0].forEach(r => html += `<td>${r}</td>`);
-            html += "</tr></table>";
-            detail.innerHTML = html;
+            if (type === 'snowflake') {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', 200); line.setAttribute('y1', 400);
+                line.setAttribute('x2', 155); line.setAttribute('y2', 400);
+                line.setAttribute('stroke', '#38bdf8');
+                svg.appendChild(line);
+            }
         }
 
         // --- SCD Logic ---
-        function updateSCD(type) {
-            const content = document.getElementById('scd-content');
-            const views = [
-                { t: "Type 0: Original", d: "Data is fixed. No changes allowed. If Alice moves to CA, the record stays NY.", tbl: "<tr><td>505</td><td>Alice</td><td>NY</td></tr>" },
-                { t: "Type 1: Overwrite", d: "No history. NY is replaced by CA.", tbl: "<tr><td>505</td><td>Alice</td><td>CA</td></tr>" },
-                { t: "Type 2: New Row (Standard)", d: "History is kept. We add a new row and expire the old one.", tbl: "<tr><td>505</td><td>Alice</td><td>NY</td><td>Exp</td></tr><tr><td>506</td><td>Alice</td><td>CA</td><td>Active</td></tr>" },
-                { t: "Type 3: New Column", d: "Current and Previous columns show the last change only.", tbl: "<tr><td>505</td><td>Alice</td><td>CA</td><td>NY</td></tr>" }
+        function showSCD(type) {
+            const box = document.getElementById('scd-box');
+            const data = [
+                { t: "Type 0: Fixed", d: "No changes allowed. Good for original attributes (Date of Birth).", c: "Alice | NY" },
+                { t: "Type 1: Overwrite", d: "Current info only. History is lost.", c: "Alice | CA (Old value NY is deleted)" },
+                { t: "Type 2: Row Versioning", d: "The standard. New row for every change.", c: "Row 1: Alice | NY (Expired)<br>Row 2: Alice | CA (Active)" },
+                { t: "Type 3: Column Versioning", d: "Current and Previous values in one row.", c: "Alice | Current: CA | Previous: NY" }
             ];
-            const active = views[type];
-            content.innerHTML = `<h3>${active.t}</h3><p>${active.d}</p><div class="table-container"><table>${active.tbl}</table></div>`;
+            const s = data[type];
+            box.innerHTML = `<h3>${s.t}</h3><p>${s.d}</p><div class="table-container"><table><tr><td>${s.c}</td></tr></table></div>`;
+            
+            document.querySelectorAll('.scd-btn').forEach((b, i) => b.classList.toggle('active', i === type));
         }
 
         // Init
-        setSchema('star');
-        updateSCD(0);
-        updateMedallion('bronze');
+        drawSchema('star');
+        showSCD(0);
+        showMedDetail('bronze');
     </script>
 </body>
 </html>
