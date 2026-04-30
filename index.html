@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Data Engineer's Playbook</title>
+    <title>The Data Engineer's Playbook v2</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -13,9 +13,9 @@
             --text: #f1f5f9;
             --text-dim: #94a3b8;
             --card: #1e293b;
-            --bronze: #cd7f32;
-            --silver: #94a3b8;
-            --gold: #fbbf24;
+            --bronze: #b45309;
+            --silver: #64748b;
+            --gold: #ca8a04;
             --fact: #f43f5e;
         }
 
@@ -28,100 +28,91 @@
             line-height: 1.6;
         }
 
-        /* Fixed Sidebar */
+        /* Sidebar Navigation */
         nav {
             width: 260px;
             background: var(--sidebar);
             height: 100vh;
             position: fixed;
-            padding: 30px 20px;
+            padding: 40px 20px;
             border-right: 1px solid #334155;
             overflow-y: auto;
             z-index: 10;
         }
 
-        nav h2 { font-size: 1.2rem; color: var(--accent); margin-bottom: 2rem; }
+        nav h2 { font-size: 1.2rem; color: var(--accent); margin-bottom: 2.5rem; text-transform: uppercase; }
         nav ul { list-style: none; padding: 0; }
-        nav ul li { margin-bottom: 15px; }
-        nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; transition: 0.2s; }
-        nav ul li a:hover { color: var(--accent); padding-left: 5px; }
+        nav ul li { margin-bottom: 20px; }
+        nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 1rem; transition: 0.2s; }
+        nav ul li a:hover { color: var(--accent); padding-left: 8px; }
 
-        /* Main Content with Correct Spacing */
+        /* Main Content */
         main { 
-            margin-left: 300px; /* Space for sidebar + extra gap */
-            padding: 50px 60px; /* Generous breathing room */
-            max-width: 1000px;
+            margin-left: 320px; /* Strong spacing from sidebar */
+            padding: 60px 80px; 
+            max-width: 1200px;
             width: 100%;
         }
 
-        section { margin-bottom: 100px; scroll-margin-top: 50px; }
-        h1 { font-size: 2.8rem; margin-bottom: 10px; }
-        h2 { color: var(--accent); font-size: 2rem; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        h3 { color: #5eead4; margin-top: 30px; }
-        p { font-size: 1.1rem; color: #cbd5e1; }
+        section { margin-bottom: 120px; scroll-margin-top: 60px; }
+        h1 { font-size: 3rem; margin-bottom: 10px; color: var(--text); }
+        h2 { color: var(--accent); font-size: 2.2rem; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
+        
+        .infobox { background: #1e293b; border-left: 4px solid var(--accent); padding: 30px; margin: 30px 0; border-radius: 8px; }
 
-        .infobox { background: #1e293b; border-left: 4px solid var(--accent); padding: 25px; margin: 25px 0; border-radius: 8px; }
-
-        /* AWS Table Styles */
-        .table-container { overflow-x: auto; margin: 30px 0; border-radius: 8px; border: 1px solid #334155; }
-        table { width: 100%; border-collapse: collapse; background: #0f172a; }
-        th, td { padding: 15px; border: 1px solid #334155; text-align: left; font-size: 0.95rem; }
-        th { background: #1e293b; color: var(--accent); }
+        /* Tables */
+        .table-container { overflow-x: auto; margin: 25px 0; border-radius: 8px; border: 1px solid #334155; background: #020617; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 14px; border: 1px solid #1e293b; text-align: left; font-size: 0.85rem; }
+        th { background: #1e293b; color: var(--accent); font-weight: 600; }
+        tr:hover { background: #0f172a; }
 
         /* Medallion Flow */
-        .medallion-flex { display: flex; align-items: center; gap: 20px; margin: 40px 0; }
-        .m-box { flex: 1; padding: 30px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .m-box:hover { filter: brightness(1.2); transform: scale(1.02); }
+        .medallion-flex { display: flex; align-items: center; gap: 25px; margin: 50px 0; }
+        .m-box { flex: 1; padding: 35px 20px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; font-weight: 800; border: 2px solid transparent; }
+        .m-box:hover { transform: translateY(-5px); border-color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
         .bronze { background: var(--bronze); color: white; }
-        .silver { background: var(--silver); color: #0f172a; }
-        .gold { background: var(--gold); color: #0f172a; }
+        .silver { background: var(--silver); color: white; }
+        .gold { background: var(--gold); color: white; }
 
         /* Schema Visualization Area */
-        .schema-container { display: flex; gap: 30px; background: #111827; padding: 30px; border-radius: 15px; min-height: 500px; border: 1px solid #334155; }
-        .canvas { flex: 2; position: relative; height: 450px; }
-        .side-panel { flex: 1; background: var(--bg); border: 1px solid var(--accent); border-radius: 10px; padding: 20px; overflow-y: auto; }
+        .schema-container { display: flex; gap: 40px; background: #020617; padding: 40px; border-radius: 20px; border: 1px solid #334155; }
+        .canvas { flex: 1.5; position: relative; height: 500px; }
+        .side-panel { flex: 1; background: #1e293b; border-radius: 12px; padding: 25px; overflow-y: auto; border: 1px solid var(--accent); }
 
         .db-node {
-            position: absolute; padding: 12px; border: 2px solid var(--accent); border-radius: 6px;
-            background: #1e293b; cursor: pointer; font-size: 0.8rem; font-weight: bold; width: 110px;
+            position: absolute; padding: 15px; border: 2px solid var(--accent); border-radius: 8px;
+            background: #0f172a; cursor: pointer; font-size: 0.85rem; font-weight: bold; width: 130px;
             text-align: center; z-index: 5; transition: 0.2s;
         }
-        .db-node:hover { background: var(--accent); color: #000; }
-        .db-node.fact { border-color: var(--fact); width: 140px; color: #fff; }
+        .db-node.fact { border-color: var(--fact); background: #450a0a; color: #fff; width: 160px; }
+        .db-node:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--accent); }
 
         /* SCD Interaction */
-        .scd-nav { display: flex; gap: 10px; margin-bottom: 20px; }
-        .scd-btn { background: #334155; border: none; color: white; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .scd-nav { display: flex; gap: 12px; margin-bottom: 25px; }
+        .scd-btn { background: #334155; border: none; color: white; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .scd-btn.active { background: var(--accent); color: #000; }
 
-        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        line { stroke: #475569; stroke-width: 2; }
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        line { stroke: #334155; stroke-width: 3; }
     </style>
 </head>
 <body>
 
     <nav>
-        <h2>THE DE PLAYBOOK</h2>
+        <h2>The DE Playbook</h2>
         <ul>
-            <li><a href="#intro">Introduction</a></li>
-            <li><a href="#oltp-olap">OLTP vs OLAP (AWS)</a></li>
-            <li><a href="#medallion">Medallion Flow</a></li>
-            <li><a href="#obt">OBT to Dimensional</a></li>
+            <li><a href="#oltp-olap">OLTP vs OLAP</a></li>
+            <li><a href="#medallion">Medallion Architecture</a></li>
             <li><a href="#schemas">Star & Snowflake</a></li>
             <li><a href="#scd">SCD Types 0-3</a></li>
         </ul>
     </nav>
 
     <main>
-        <section id="intro">
-            <h1>Data Modeling for Data Engineers</h1>
-            <p>Data modeling isn't just about drawing boxes; it's about optimizing data for human and machine consumption. We move from <strong>High-Write</strong> systems to <strong>High-Read</strong> systems.</p>
-        </section>
-
         <section id="oltp-olap">
-            <h2>1. OLTP vs OLAP: Detailed Comparison</h2>
-            <p>Based on <i>AWS Architecture Standards</i>, here are the fundamental differences between transactional and analytical systems:</p>
-            
+            <h2>1. OLTP vs OLAP (AWS Standards)</h2>
+            <p>Based on <strong>AWS architectural benchmarks</strong>, these are the core differences between transactional and analytical workloads.</p>
             <div class="table-container">
                 <table>
                     <thead>
@@ -132,98 +123,124 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>Main Goal</strong></td><td>Data Processing (Recording transactions)</td><td>Data Analysis (Decision making)</td></tr>
-                        <tr><td><strong>Data Source</strong></td><td>Operational databases (ERP, CRM)</td><td>Data Warehouse / Data Lake</td></tr>
-                        <tr><td><strong>Data Model</strong></td><td>Normalized (3NF) - eliminates redundancy</td><td>Denormalized (Star/Snowflake) - fast joins</td></tr>
-                        <tr><td><strong>Processing Speed</strong></td><td>Milliseconds (Fast updates/writes)</td><td>Seconds to Hours (Massive read scans)</td></tr>
-                        <tr><td><strong>Concurrency</strong></td><td>High (Thousands of simultaneous users)</td><td>Low (Small teams of analysts/BI tools)</td></tr>
-                        <tr><td><strong>Backup/Recovery</strong></td><td>Mission critical, needs frequent backups</td><td>Less critical, data can be re-run from source</td></tr>
-                        <tr><td><strong>Example Query</strong></td><td>"Insert customer order #552"</td><td>"Total revenue growth per region in Q4"</td></tr>
+                        <tr><td><strong>Primary Goal</strong></td><td>Operational efficiency (recording daily tasks)</td><td>Strategic decision making (historic trends)</td></tr>
+                        <tr><td><strong>Data Model</strong></td><td>Normalized (3NF) - focus on data integrity</td><td>Denormalized (Star/Snowflake) - focus on speed</td></tr>
+                        <tr><td><strong>Write Frequency</strong></td><td>Extremely high, millisecond latency</td><td>Batch or Stream ingestion (hourly/daily)</td></tr>
+                        <tr><td><strong>Query Complexity</strong></td><td>Simple lookups (Single customer record)</td><td>Massive aggregations (Total sales per region)</td></tr>
+                        <tr><td><strong>Data Source</strong></td><td>Native Apps, ERP, CRM systems</td><td>Aggregated from multiple OLTP systems</td></tr>
+                        <tr><td><strong>Processing Type</strong></td><td>ACID compliant (Atomicity, Consistency)</td><td>High-throughput Columnar scans</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="medallion">
-            <h2>2. The Medallion Architecture</h2>
-            <p>Data refinement occurs in stages. Click each box to see the transformation.</p>
+            <h2>2. Medallion Architecture: The Data Journey</h2>
+            <p>Click a layer to see the 5x5 data evolution from source to curated gold.</p>
             <div class="medallion-flex">
-                <div class="m-box bronze" onclick="showMedDetail('bronze')">BRONZE (Raw)</div>
-                <i class="fas fa-arrow-right"></i>
+                <div class="m-box bronze" onclick="showMedDetail('bronze')">BRONZE (Staging)</div>
+                <i class="fas fa-chevron-right"></i>
                 <div class="m-box silver" onclick="showMedDetail('silver')">SILVER (Enriched)</div>
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-chevron-right"></i>
                 <div class="m-box gold" onclick="showMedDetail('gold')">GOLD (Curated)</div>
             </div>
             <div id="med-info" class="infobox">
-                <p>Select a layer to see the data detail.</p>
-            </div>
-        </section>
-
-        <section id="obt">
-            <h2>3. From OBT to Dimensional Gold</h2>
-            <p>In the <strong>Silver Layer</strong>, we often build <strong>One Big Table (OBT)</strong>. This is a massive, denormalized table containing everything needed for cleaning.</p>
-            <div class="infobox">
-                <h3>Why split OBT into Gold?</h3>
-                <p>While OBT is great for simple scripts, <strong>Dimensional Modeling</strong> (Facts and Dims) in Gold allows:</p>
-                <ul>
-                    <li><strong>Space Efficiency:</strong> Product details are stored once in a Dimension, not repeated a million times in the Fact.</li>
-                    <li><strong>Conformed Consistency:</strong> Using the same 'Date' table for Sales and Shipping prevents metric discrepancies.</li>
-                </ul>
+                <p>Select a layer to see the 5x5 data transformation.</p>
             </div>
         </section>
 
         <section id="schemas">
-            <h2>4. Star & Snowflake Visualization</h2>
+            <h2>3. Star vs Snowflake Schema</h2>
+            <p>In the <strong>Gold layer</strong>, data is split into <strong>Facts</strong> (metrics) and <strong>Dimensions</strong> (context).</p>
             <div class="scd-nav">
                 <button id="starBtn" class="scd-btn active" onclick="drawSchema('star')">Star Schema</button>
                 <button id="snowBtn" class="scd-btn" onclick="drawSchema('snowflake')">Snowflake Schema</button>
             </div>
-            
             <div class="schema-container">
                 <div class="canvas" id="canvas">
                     <svg id="svg-layer"></svg>
-                    </div>
+                </div>
                 <div class="side-panel" id="schema-panel">
                     <h3>Table Detail</h3>
-                    <p>Click any box in the diagram to inspect the data columns.</p>
+                    <p>Click any box in the diagram to view its 5x5 schema structure.</p>
                 </div>
             </div>
         </section>
 
         <section id="scd">
-            <h2>5. Slowly Changing Dimensions (SCD)</h2>
-            <p>Managing how history is tracked when attributes change (e.g., a customer moves to a new city).</p>
+            <h2>4. Slowly Changing Dimensions (SCD)</h2>
+            <p>Managing how history is tracked when attributes change. Click a type to see how Alice moving from NY to Texas affects the table.</p>
             <div class="scd-nav">
-                <button class="scd-btn active" onclick="showSCD(0)">SCD 0</button>
-                <button class="scd-btn" onclick="showSCD(1)">SCD 1</button>
-                <button class="scd-btn" onclick="showSCD(2)">SCD 2</button>
-                <button class="scd-btn" onclick="showSCD(3)">SCD 3</button>
+                <button class="scd-btn active" onclick="showSCD(0)">Type 0</button>
+                <button class="scd-btn" onclick="showSCD(1)">Type 1</button>
+                <button class="scd-btn" onclick="showSCD(2)">Type 2</button>
+                <button class="scd-btn" onclick="showSCD(3)">Type 3</button>
             </div>
-            <div id="scd-box" class="infobox">
+            <div id="scd-box">
                 </div>
         </section>
     </main>
 
     <script>
-        // --- Medallion Data ---
+        // --- 5x5 Medallion Data ---
         function showMedDetail(layer) {
             const info = document.getElementById('med-info');
-            const map = {
-                bronze: ["Raw Data", "Exact copy of source system. Includes duplicates and messy formats.", "<code>{id: 1, val: 'laptop', ts: '23-01'}</code>"],
-                silver: ["Enriched Data (OBT)", "Deduplicated, standardized, and joined. Often used for ad-hoc analysis.", "<code>id: 1 | item: Laptop | price: 1200.00</code>"],
-                gold: ["Curated Data (Facts/Dims)", "The Gold standard. Optimized for PowerBI/Tableau reporting.", "<code>FactSales -> DimProduct</code>"]
+            const dataMap = {
+                bronze: {
+                    title: "Bronze Layer (Raw / Staging)",
+                    desc: "An exact copy of source data. No transformations, includes messy logs.",
+                    cols: ["row_id", "raw_payload", "ingest_timestamp", "source_system", "is_processed"],
+                    rows: [
+                        ["101", '{"uid": 1, "city": "NY"}', "2024-01-01 10:00", "CRM_V1", "true"],
+                        ["102", '{"uid": 2, "city": "LA"}', "2024-01-01 10:05", "CRM_V1", "true"],
+                        ["103", '{"uid": 3, "city": "TX"}', "2024-01-01 10:10", "CRM_V1", "false"],
+                        ["104", '{"uid": 4, "city": "SF"}', "2024-01-01 10:15", "CRM_V1", "true"],
+                        ["105", 'null', "2024-01-01 10:20", "CRM_V1", "false"]
+                    ]
+                },
+                silver: {
+                    title: "Silver Layer (Enriched / One Big Table)",
+                    desc: "Cleansed, deduplicated, and unified. Nulls handled.",
+                    cols: ["user_id", "user_name", "city_code", "last_login", "quality_score"],
+                    rows: [
+                        ["1", "Alice Smith", "NY", "2024-01-01", "0.98"],
+                        ["2", "Bob Jones", "LA", "2024-01-01", "1.00"],
+                        ["3", "Charlie Brown", "TX", "2024-01-01", "0.95"],
+                        ["4", "David Wilson", "SF", "2024-01-01", "0.99"],
+                        ["5", "Eve Miller", "CHI", "2024-01-01", "0.80"]
+                    ]
+                },
+                gold: {
+                    title: "Gold Layer (Curated / Serving)",
+                    desc: "Divided into Facts and Dimensions for BI reporting.",
+                    cols: ["fact_key", "user_key", "item_key", "qty", "total_amt"],
+                    rows: [
+                        ["SK_1", "UK_101", "IK_50", "1", "$1,200"],
+                        ["SK_2", "UK_102", "IK_20", "2", "$40"],
+                        ["SK_3", "UK_103", "IK_50", "1", "$1,200"],
+                        ["SK_4", "UK_104", "IK_11", "5", "$500"],
+                        ["SK_5", "UK_105", "IK_02", "1", "$25"]
+                    ]
+                }
             };
-            const [t, d, c] = map[layer];
-            info.innerHTML = `<h3>${t}</h3><p>${d}</p><pre>${c}</pre>`;
+
+            const l = dataMap[layer];
+            let html = `<h3>${l.title}</h3><p>${l.desc}</p><div class="table-container"><table><thead><tr>`;
+            l.cols.forEach(c => html += `<th>${c}</th>`);
+            html += "</tr></thead><tbody>";
+            l.rows.forEach(r => {
+                html += "<tr>" + r.map(cell => `<td>${cell}</td>`).join('') + "</tr>";
+            });
+            html += "</tbody></table></div>";
+            info.innerHTML = html;
         }
 
         // --- Schema Visualizer Logic ---
-        const tableDetails = {
-            fact: { name: "FactSales", cols: ["sale_id", "prod_key (FK)", "user_key (FK)", "qty", "amount"] },
-            dim_user: { name: "DimUser", cols: ["user_key (PK)", "user_id", "name", "region"] },
-            dim_prod: { name: "DimProduct", cols: ["prod_key (PK)", "name", "category_id (FK)"] },
-            dim_date: { name: "DimDate", cols: ["date_key (PK)", "day", "month", "year"] },
-            dim_cat: { name: "DimCategory", cols: ["category_id (PK)", "cat_name"] }
+        const tableData = {
+            fact: { name: "FactSales", cols: ["sale_sk (PK)", "user_fk", "date_fk", "prod_fk", "revenue"], rows: [["1", "101", "202401", "55", "$500"],["2", "102", "202401", "12", "$20"],["3", "103", "202402", "55", "$500"],["4", "104", "202402", "10", "$15"],["5", "105", "202403", "99", "$200"]] },
+            dim_user: { name: "DimUser", cols: ["user_sk", "natural_id", "name", "city", "region"], rows: [["101", "USR_A", "Alice", "NY", "East"],["102", "USR_B", "Bob", "LA", "West"],["103", "USR_C", "Charlie", "TX", "South"],["104", "USR_D", "Dave", "SF", "West"],["105", "USR_E", "Eve", "CHI", "Mid"]] },
+            dim_prod: { name: "DimProduct", cols: ["prod_sk", "p_name", "price", "cat_fk", "supplier"], rows: [["55", "Laptop", "1200", "1", "Dell"],["12", "Mug", "10", "2", "IKEA"],["10", "Pen", "2", "3", "Bic"],["99", "Desk", "200", "2", "OfficeMax"],["01", "Mouse", "25", "1", "Logi"]] },
+            dim_cat: { name: "DimCategory", cols: ["cat_sk", "cat_name", "dept", "tax_code", "mgr"], rows: [["1", "Electronics", "Tech", "T1", "John"],["2", "Furniture", "Home", "T2", "Sara"],["3", "Stationery", "Office", "T1", "John"],["4", "Apparel", "Fashion", "T3", "Mike"],["5", "Food", "Grocery", "T0", "Ann"]] }
         };
 
         function drawSchema(type) {
@@ -231,23 +248,21 @@
             const svg = document.getElementById('svg-layer');
             const panel = document.getElementById('schema-panel');
             
-            // Cleanup
             canvas.querySelectorAll('.db-node').forEach(n => n.remove());
             svg.innerHTML = "";
             document.getElementById('starBtn').classList.toggle('active', type === 'star');
             document.getElementById('snowBtn').classList.toggle('active', type === 'snowflake');
 
-            // Coordinates
-            const centers = { x: 220, y: 220 };
+            // Fixed non-overlapping coordinates
             const nodes = [
-                { id: 'fact', x: centers.x - 70, y: centers.y - 30, class: 'fact' },
-                { id: 'dim_user', x: 50, y: 50 },
-                { id: 'dim_date', x: 320, y: 50 },
-                { id: 'dim_prod', x: centers.x - 55, y: 380 }
+                { id: 'fact', x: 200, y: 220, class: 'fact' },
+                { id: 'dim_user', x: 20, y: 50 },
+                { id: 'dim_prod', x: 380, y: 50 },
+                { id: 'dim_date', x: 220, y: 400 } // Dummy for visual
             ];
 
             if (type === 'snowflake') {
-                nodes.push({ id: 'dim_cat', x: 100, y: 380 });
+                nodes.push({ id: 'dim_cat', x: 420, y: 250 });
             }
 
             nodes.forEach(n => {
@@ -255,49 +270,51 @@
                 div.className = `db-node ${n.class || ''}`;
                 div.style.left = n.x + 'px';
                 div.style.top = n.y + 'px';
-                div.innerText = tableDetails[n.id].name;
+                div.innerText = tableData[n.id] ? tableData[n.id].name : "DimDate";
                 div.onclick = () => {
-                    panel.innerHTML = `<h3>${tableDetails[n.id].name}</h3><ul>` + 
-                        tableDetails[n.id].cols.map(c => `<li>${c}</li>`).join('') + `</ul>`;
+                    const t = tableData[n.id] || { name: "DimDate", cols: ["date_sk", "day", "month", "year", "is_weekend"], rows: [["202401", "01", "Jan", "2024", "No"], ["202402", "02", "Jan", "2024", "No"], ["202403", "03", "Jan", "2024", "No"], ["202404", "04", "Jan", "2024", "No"], ["202405", "05", "Jan", "2024", "Yes"]] };
+                    panel.innerHTML = `<h3>${t.name} (5x5)</h3><div class="table-container"><table><thead><tr>` + 
+                        t.cols.map(c => `<th>${c}</th>`).join('') + `</tr></thead><tbody>` +
+                        t.rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join('')}</tr>`).join('') + `</tbody></table></div>`;
                 };
                 canvas.appendChild(div);
 
-                // Draw lines to center fact (except fact itself)
                 if (n.id !== 'fact' && n.id !== 'dim_cat') {
                     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    line.setAttribute('x1', n.x + 55);
-                    line.setAttribute('y1', n.y + 25);
-                    line.setAttribute('x2', centers.x);
-                    line.setAttribute('y2', centers.y);
+                    line.setAttribute('x1', n.x + 65); line.setAttribute('y1', n.y + 25);
+                    line.setAttribute('x2', 280); line.setAttribute('y2', 250);
                     svg.appendChild(line);
                 }
             });
 
             if (type === 'snowflake') {
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', 200); line.setAttribute('y1', 400);
-                line.setAttribute('x2', 155); line.setAttribute('y2', 400);
-                line.setAttribute('stroke', '#38bdf8');
+                line.setAttribute('x1', 440); line.setAttribute('y1', 100);
+                line.setAttribute('x2', 480); line.setAttribute('y2', 250);
                 svg.appendChild(line);
             }
         }
 
-        // --- SCD Logic ---
+        // --- SCD Interactive Logic ---
         function showSCD(type) {
             const box = document.getElementById('scd-box');
-            const data = [
-                { t: "Type 0: Fixed", d: "No changes allowed. Good for original attributes (Date of Birth).", c: "Alice | NY" },
-                { t: "Type 1: Overwrite", d: "Current info only. History is lost.", c: "Alice | CA (Old value NY is deleted)" },
-                { t: "Type 2: Row Versioning", d: "The standard. New row for every change.", c: "Row 1: Alice | NY (Expired)<br>Row 2: Alice | CA (Active)" },
-                { t: "Type 3: Column Versioning", d: "Current and Previous values in one row.", c: "Alice | Current: CA | Previous: NY" }
-            ];
-            const s = data[type];
-            box.innerHTML = `<h3>${s.t}</h3><p>${s.d}</p><div class="table-container"><table><tr><td>${s.c}</td></tr></table></div>`;
-            
-            document.querySelectorAll('.scd-btn').forEach((b, i) => b.classList.toggle('active', i === type));
+            const scdData = {
+                0: { t: "SCD 0: Fixed / No Change", d: "The data never changes. Original values are kept forever. Used for attributes like 'Date of Birth'.", cols: ["user_sk", "id", "name", "city", "original_ts"], rows: [["1", "101", "Alice", "NY", "2020-01-01"], ["2", "102", "Bob", "LA", "2020-05-15"], ["3", "103", "Charlie", "TX", "2021-02-10"], ["4", "104", "Dave", "SF", "2021-11-20"], ["5", "105", "Eve", "CHI", "2022-03-30"]] },
+                1: { t: "SCD 1: Overwrite", d: "Old data is deleted. Latest value is all that remains. No history is kept.", cols: ["user_sk", "id", "name", "city (Updated)", "update_ts"], rows: [["1", "101", "Alice", "Texas", "2024-05-01"], ["2", "102", "Bob", "LA", "2020-05-15"], ["3", "103", "Charlie", "TX", "2021-02-10"], ["4", "104", "Dave", "SF", "2021-11-20"], ["5", "105", "Eve", "CHI", "2022-03-30"]] },
+                2: { t: "SCD 2: Full History (Row Versioning)", d: "A new row is added for the change. The old row is marked as expired using dates and flags. Industry standard.", cols: ["sk", "id", "city", "is_current", "start_date", "end_date"], rows: [["1", "101", "NY", "N", "2020-01-01", "2024-04-30"], ["10", "101", "Texas", "Y", "2024-05-01", "9999-12-31"], ["2", "102", "LA", "Y", "2020-05-15", "9999-12-31"], ["3", "103", "TX", "Y", "2021-02-10", "9999-12-31"], ["4", "104", "SF", "Y", "2021-11-20", "9999-12-31"]] },
+                3: { t: "SCD 3: Limited History (Column Versioning)", d: "The current and previous values are kept in the same row. Only shows the last change.", cols: ["user_sk", "id", "name", "curr_city", "prev_city"], rows: [["1", "101", "Alice", "Texas", "NY"], ["2", "102", "Bob", "LA", "null"], ["3", "103", "Charlie", "TX", "null"], ["4", "104", "Dave", "SF", "null"], ["5", "105", "Eve", "CHI", "null"]] }
+            };
+
+            const s = scdData[type];
+            let html = `<div class="infobox"><h3>${s.t}</h3><p>${s.d}</p></div><div class="table-container"><table><thead><tr>`;
+            s.cols.forEach(c => html += `<th>${c}</th>`);
+            html += "</tr></thead><tbody>" + s.rows.map(r => `<tr>${r.map(v => `<td>${v}</td>`).join('')}</tr>`).join('') + "</tbody></table></div>";
+            box.innerHTML = html;
+
+            document.querySelectorAll('.scd-btn').forEach((b, i) => b.classList.toggle('active', i == type));
         }
 
-        // Init
+        // Initialization
         drawSchema('star');
         showSCD(0);
         showMedDetail('bronze');
