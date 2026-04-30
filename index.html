@@ -165,7 +165,7 @@
             </div>
 
             <div id="med-detail" class="infobox">
-                <p>Click a layer above to view the 5x5 data transformation logic.</p>
+                <p>Click a layer above to view the data transformation logic.</p>
             </div>
         </section>
 
@@ -233,7 +233,7 @@
                     </div>
                     <div class="side-panel" id="panel">
                         <h3>Inspect Table</h3>
-                        <p>Click any box in the diagram to view its 5x5 data structure.</p>
+                        <p>Click any box in the diagram to view data structure.</p>
                     </div>
                 </div>
             </div>
@@ -299,7 +299,7 @@
                 div.innerText = tableData[n.id] ? tableData[n.id].name : "DimDate";
                 div.onclick = () => {
                     const t = tableData[n.id] || { name: "DimDate", cols:["sk","d","m","y","day"], rows:[["D1","01","Jan","24","M"],["D2","02","Jan","24","T"],["D3","03","Jan","24","W"],["D4","04","Jan","24","T"],["D5","05","Jan","24","F"]] };
-                    panel.innerHTML = `<h3>${t.name} (5x5)</h3><div class="table-container"><table><tr>${t.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${t.rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table></div>`;
+                    panel.innerHTML = `<h3>${t.name}</h3><div class="table-container"><table><tr>${t.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${t.rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table></div>`;
                 };
                 canvas.appendChild(div);
                 if(n.id !== 'fact' && n.id !== 'cat') {
@@ -335,4 +335,57 @@
         updateMed('bronze');
     </script>
 </body>
+
+
+
+    <section id="references">
+            <h2>Notes built using these links</h2>
+            <div class="infobox">
+                <p>The content of these study notes was synthesized and curated from the following high-quality data engineering resources:</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px;">
+                        <i class="fab fa-youtube" style="color: #ff0000;"></i> 
+                        <a href="https://youtu.be/K7C1sWKQU-o?si=uiK1aHAghCuofBlN" target="_blank" style="color: var(--accent); text-decoration: none;"> 
+                            Data Modeling Masterclass - YouTube
+                        </a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        <i class="fas fa-database" style="color: #4ade80;"></i> 
+                        <a href="https://www.montecarlodata.com/blog-fact-vs-dimension-tables-in-data-warehousing-explained/" target="_blank" style="color: var(--accent); text-decoration: none;"> 
+                            Fact vs Dimension Tables Explained - Monte Carlo
+                        </a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        <i class="fab fa-aws" style="color: #ff9900;"></i> 
+                        <a href="https://aws.amazon.com/compare/the-difference-between-olap-and-oltp/" target="_blank" style="color: var(--accent); text-decoration: none;"> 
+                            Difference between OLAP and OLTP - AWS
+                        </a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        <i class="fas fa-infinity" style="color: #ff3621;"></i> 
+                        <a href="https://www.databricks.com/blog/what-is-medallion-architecture" target="_blank" style="color: var(--accent); text-decoration: none;"> 
+                            What is Medallion Architecture? - Databricks
+                        </a>
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        <i class="fab fa-medium" style="color: #ffffff;"></i> 
+                        <a href="https://medium.com/@kazarmax/scd-types-explained-with-sql-a-guide-for-data-engineers-a26a07cf5c60" target="_blank" style="color: var(--accent); text-decoration: none;"> 
+                            SCD Types Explained with SQL - Medium
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 40px 0;">
+            
+            <div style="text-align: center; padding-bottom: 20px;">
+                <p style="color: var(--text-dim); font-size: 0.9rem;">
+                    Curated and Built by <br>
+                    <strong style="color: var(--accent); font-size: 1.2rem; letter-spacing: 1px;">[Your Name]</strong>
+                </p>
+                <p style="font-size: 0.8rem; color: #475569;">© 2026 | Data Engineering Study Portal</p>
+            </div>
+        </section>
+
+    
 </html>
